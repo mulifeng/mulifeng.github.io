@@ -1,39 +1,31 @@
 ---
 title: "Personal Website"
-author: "Mu Lifeng"
-date: "2019/11/26"
-output: html_document
 ---
-__Look at how cool this plot is!__
 
-
-## Remove # before ticks to get this to work. 
 ```{r, echo = FALSE, warnings=FALSE, message=FALSE, fig.align='center'}
 # 国别分布、省市分布
 library(maps)
 library(ggplot2)
 library(openxlsx)
 library(ggthemes)
+library(dplyr)
+
 datasource229 <- read.xlsx("229.xlsx", sheet = 1)
 guojiaChina <- datasource229$'申请人国别代码'
 # > head(guojiaChina)
 # [1] "美国" "德国" "美国" "日本" "美国" "英国"
-
 guojiaEnglish <- c('Australia', 'Germany', 'France', 'South Korea', 'USA',
              'Japan', 'Sweden', 'Switzerland', 'Slovenia',
              'India', 'UK', 'China')
 guojiafreq <- as.vector(table(guojiaChina))
 df <- data.frame(region = guojiaEnglish, guojiafreq) 
 # 将列名称改为相同，即region，便于与地图数据信息合并
-
 world <- map_data("world")  ## 将地图数据转为数据框
 data_map <- merge(world, df, all.x = T)
-
 # Reorder the rows because order matters when drawing polygons
 # and merge destroys the original ordering
 data_map <- data_map[order(data_map$order), ]
 library(ggrepel)  # 添加文本注释
-
 # 有时候需要显示省名标签，特别是给老领导看。
 # 可根据每个省形状的经纬度平均值求近似中心位置，标注省名。
 library(plyr)
@@ -45,12 +37,11 @@ centres[12, ]$lat <- 40
 centres$code <- c('AU', 'CN', 'FR', 'DE', 'IN', 'JP', 'SI', 'KR',
                   'SE', 'CH', 'GB', 'US')
 centres$freq <- c(1, 136, 5, 28, 1, 10, 1, 1, 1, 2, 1, 42)
-
 library(ggimage)
 p <- ggplot(data_map, aes(x = long, y = lat)) +
   geom_polygon(aes(group = group, fill = guojiafreq)) +
-  # geom_flag(data = centres, size = 0.03, asp=2,
-  #           aes(x = long, y = lat, image = code)) +
+  geom_flag(data = centres, size = 0.03, asp=2,
+            aes(x = long, y = lat, image = code)) +
   scale_fill_gradient("专利数量（件）", 
                       low="#FFFFFF", high="#FF6600",
                       na.value = '#FFFFFF') +

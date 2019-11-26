@@ -1,8 +1,5 @@
 ---
 title: "Untitled"
-author: "Mu Lifeng"
-date: "2019/11/26"
-output: html_document
 ---
 
 Sometimes I like to do projects and then post them on the internet for the whole world to benefit!

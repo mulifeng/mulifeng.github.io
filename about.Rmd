@@ -1,11 +1,8 @@
 ---
 title: "About Me"
-author: "Mu Lifeng"
-date: "2019/11/26"
-output: html_document
 ---
 
-- __Name:__ Lifeng
+- __Name:__ Lifeng Mu
 - __Ocupation:__ Student
 - __Hobbies:__ Learning R
 
