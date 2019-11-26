@@ -41,7 +41,7 @@ centres$freq <- c(1, 136, 5, 28, 1, 10, 1, 1, 1, 2, 1, 42)
 library(ggimage)
 p <- ggplot(data_map, aes(x = long, y = lat)) +
   geom_polygon(aes(group = group, fill = guojiafreq)) +
-  geom_flag(data = centres, size = 0.03, asp=2,
+  geom_flag(data = centres, size = 0.03, asp = 0.5,
             aes(x = long, y = lat, image = code)) +
   scale_fill_gradient("专利数量（件）", 
                       low="#FFFFFF", high="#FF6600",
