@@ -4,18 +4,29 @@ author: "Mu Lifeng"
 date: "2019/11/26"
 output: html_document
 ---
-Hello, World!
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+__Look at how cool this plot is!__
+
+$$Y = \alpha \cdot \sin(X), \alpha = 0,0.1,0.2,...,3$$
+
+
+## Remove # before ticks to get this to work. 
+```{r, echo = FALSE, fig.align='center'}
+library(tidyverse)
+cool_function <- function(x, alpha) return(sin(alpha*x))
+xs <- seq(0, pi*1.5, 0.005)
+ys <- cool_function(xs, 1)
+results <- data_frame(xs, ys, alpha = "1")
+for(alpha in seq(0,3, 0.1)){
+  results <- results %>% 
+    bind_rows(data_frame(
+      xs, 
+      ys = cool_function(xs, alpha),
+      alpha = as.character(alpha)
+    ))
+}
+
+ggplot(results, aes(x = xs, y = ys, color = alpha)) + 
+  geom_line() + 
+  theme_bw() + 
+  theme(legend.position="none")
 ```
-
-
-```{r cars}
-summary(cars)
-```
-
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
