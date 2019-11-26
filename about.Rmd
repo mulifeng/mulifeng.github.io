@@ -6,9 +6,11 @@ output: html_document
 ---
 
 - __Name:__ Lifeng
-- __Ocupation:__ "Student"
-- __Hobbies:__ Learning R. 
+- __Ocupation:__ Student
+- __Hobbies:__ Learning R
 
-Here is a photo of me. 
+This Is Who I Am. 
 
 ![](me.jpg)
+
+
