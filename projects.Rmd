@@ -19,6 +19,7 @@ title: ""
 </div>
 <div class="col-xs-12 col-sm-7">
 <span style="font-family:myFancyFont; font-size:3em;">These days I like to discuss</span>
+
 Some works in the period of graduate study.
 
 ## [Data Visualization in R](http://nickstrayer.me/visualization_in_r/)

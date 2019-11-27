@@ -1,0 +1,24 @@
+---
+title: ""
+---
+# law of large number
+# 大数定理/掷骰子
+dice <- function(n){
+  library(ggplot2)
+  m = 0
+  times = c()
+  p = c()
+  for (i in 1:n) {
+    value = sample(c(1, 2, 3, 4, 5, 6), 1, replace = TRUE, prob = c(1/6, 1/6, 1/6, 1/6, 1/6, 1/6))
+    if(value == 1){
+      m = m + 1
+      times[i] = m
+      p[i] = m/i
+    }else{
+      times[i] = m
+      p[i] = m/i
+    }
+  }
+  df <- data.frame(times, p)
+  ggplot(df, aes(x = times, y = p)) + geom_line() + geom_smooth(method = lm)
+}

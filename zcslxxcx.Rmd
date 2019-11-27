@@ -1,0 +1,65 @@
+---
+title: ""
+---
+
+## 注册受理信息更新查询-NMPA数据分析
+# 使用tidyverse package进行数据处理和绘图
+
+# A 中药 B 化药  C 生物制品 D 体外试剂
+# a新药 b 进口 c 进口再注册 d 仿制&已有国家标准 e 补充申请 f 小计 
+
+library(tidyverse)
+library(readxl)
+library(ggthemes)
+library(export)
+
+data <- read_excel("20190801.xlsx", sheet = 4)
+data
+
+colnames(data) = c('Drugtype', 'ApplyType', 'Year', 'num')
+
+# 折线图
+data1 <- data %>%
+  filter(Year != '2011前', ApplyType != 'f') %>%
+  group_by(Drugtype, Year) %>%
+  summarise(num_drug = sum(num))
+data2 <- data %>%
+  filter(Year != '2011前', ApplyType != 'f') %>%
+  group_by(Year) %>%
+  summarise(num_drug = sum(num))
+
+(p1 <- ggplot(data1) + 
+  geom_line(aes(x = Year, y = num_drug, 
+                group = Drugtype, colour = Drugtype), size = 1, linetype = 2) +
+  scale_color_discrete('药品类型',
+                       breaks = c('A', 'B', 'C', 'D'),
+                       labels = c('中药', '化药', '生物制品', '体外试剂')) + 
+  labs(title = 'CDE受理情况') +
+  xlab('年份') + ylab('受理数量') +
+  geom_line(data = data2, aes(x = Year, y = num_drug, group = 1), 
+            size = 1, colour = '#FF6633') +
+  #ylim(0, 1000) +
+  theme_light())
+
+(p2 <- p1 + ylim(0, 1000))
+
+data3 <- data %>%
+  filter(Year != '2011前', ApplyType != 'f') %>%
+  group_by(ApplyType, Year) %>%
+  summarise(num_drug = sum(num))
+(p3 <- ggplot(data3) +
+  geom_line(aes(x = Year, y = num_drug, group = ApplyType, colour = ApplyType),
+            size = 2) +
+  scale_colour_discrete('申请类型',
+                        breaks = c('a', 'b', 'c', 'd', 'e'),
+                        labels = c('新药', '进口', '进口再注册', '仿制&已有国家标准', '补充申请')) +
+  labs(title = 'CDE受理情况') +
+  xlab('年份') + ylab('受理数量') +
+  theme_wsj(color = 'green'))
+
+# graph2ppt(p1, file = 'graph-01.pptx')
+# graph2ppt(p2, file = 'graph-02.pptx')
+# graph2ppt(p3, file = 'graph-03.pptx')
+
+
+

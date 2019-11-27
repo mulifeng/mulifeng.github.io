@@ -1,0 +1,97 @@
+---
+title: "odds and log(odds)"
+author: "Mu Lifeng"
+date: "2019/10/3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# data
+```{r}
+set.seed(2019-10-01)
+a <- runif(100, 1, 100)
+b <- 100-a
+odds <- a/b
+data <- data.frame(a = a, b = b, odds = odds)
+```
+
+# ggplot2绘图
+```{r}
+library(ggplot2)
+p1 <- ggplot(data, aes(x = odds)) + 
+  geom_histogram(aes(y = ..density..), fill = "#4169E1", bins = 30) + 
+  geom_density(color = "#FF4500", size = 1)
+
+p2 <- ggplot(data, aes(x = log(odds))) + 
+  geom_histogram(aes(y = ..density..), fill = "#4169E1", bins = 10) +
+  geom_density(aes(log(odds))) +
+  geom_line(aes(x = log(odds), 
+                y = dnorm(log(odds), mean = mean(log(odds)), sd = sd(log(odds)))),
+            color = "#FF4500", size = 1)
+
+p3 <- ggplot(data, aes(x = log10(odds))) + 
+  geom_histogram(aes(y = ..density..), fill = "#4169E1", bins = 10) +
+  geom_line(aes(x = log10(odds), 
+                y = dnorm(log10(odds), mean = mean(log10(odds)), sd = sd(log10(odds)))),
+            color = "#FF4500", size = 1)
+
+p4 <- ggplot(data, aes(x = log2(odds))) + 
+  geom_histogram(aes(y = ..density..), fill = "#4169E1", bins = 10) +
+  geom_line(aes(x = log2(odds), 
+                y = dnorm(log2(odds), mean = mean(log2(odds)), sd = sd(log2(odds)))),
+            color = "#FF4500", size = 1)
+cowplot::plot_grid(p1, p2, p3, p4)
+```
+
+# 传统绘图系统
+```{r}
+opar <- par(no.readonly = TRUE)
+par(mfrow = c(2, 2))
+hist(odds, breaks = 50)
+# 容易发现数据呈现偏态分布
+# 将odds取对数
+## loge
+hist(log(odds), breaks = 20, freq = F)
+curve(dnorm(x, 
+            mean = mean(log(odds)),
+            sd = sd(log(odds))),
+      add = TRUE,
+      col="darkblue", 
+      lwd=2)
+
+## log10
+hist(log10(odds), breaks = 10, freq = F)
+curve(dnorm(x, 
+            mean = mean(log10(odds)),
+            sd = sd(log10(odds))),
+      add = TRUE,
+      col="darkblue", 
+      lwd=2)
+
+## log2
+hist(log2(odds), breaks = 10, freq = F)
+curve(dnorm(x, 
+            mean = mean(log2(odds)),
+            sd = sd(log2(odds))),
+      add = TRUE,
+      col="darkblue", 
+      lwd=2)
+par(opar)
+```
+
+The log(odds) makes things symmetrical, easier to interpret 
+and easier for fancy statistics.
+
+Logarithms are an incredibly useful transformation for dealing
+with data that ranges across multiple orders of magnitude. They
+also convert multiplicative relationships to additive
+All else being equal, I recommend using log2() because it’s easy
+to interpret: a difference of 1 on the log scale corresponds to
+doubling on the original scale and a difference of –1 corresponds
+to halving.
+
+REFERENCE: 
+Wickham H, Grolemund G. R for data science: import, tidy, transform, visualize, and model data[M]. " O'Reilly Media, Inc.", 2016.
