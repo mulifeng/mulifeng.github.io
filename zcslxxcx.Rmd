@@ -8,25 +8,27 @@ title: ""
 # A 中药 B 化药  C 生物制品 D 体外试剂
 # a新药 b 进口 c 进口再注册 d 仿制&已有国家标准 e 补充申请 f 小计 
 
+```{r, echo=FALSE, warnings=FALSE, message=FALSE, fig.align='center'}
 library(tidyverse)
 library(readxl)
 library(ggthemes)
 library(export)
 
 data <- read_excel("20190801.xlsx", sheet = 4)
-data
+#data
 
 colnames(data) = c('Drugtype', 'ApplyType', 'Year', 'num')
 
 # 折线图
+# 注意dplyr包和plyr包之间存在的冲突
 data1 <- data %>%
   filter(Year != '2011前', ApplyType != 'f') %>%
   group_by(Drugtype, Year) %>%
-  summarise(num_drug = sum(num))
+  dplyr::summarize(num_drug = sum(num))
 data2 <- data %>%
   filter(Year != '2011前', ApplyType != 'f') %>%
   group_by(Year) %>%
-  summarise(num_drug = sum(num))
+  dplyr::summarize(num_drug = sum(num))
 
 (p1 <- ggplot(data1) + 
   geom_line(aes(x = Year, y = num_drug, 
@@ -46,7 +48,7 @@ data2 <- data %>%
 data3 <- data %>%
   filter(Year != '2011前', ApplyType != 'f') %>%
   group_by(ApplyType, Year) %>%
-  summarise(num_drug = sum(num))
+  dplyr::summarise(num_drug = sum(num))
 (p3 <- ggplot(data3) +
   geom_line(aes(x = Year, y = num_drug, group = ApplyType, colour = ApplyType),
             size = 2) +
@@ -60,6 +62,6 @@ data3 <- data %>%
 # graph2ppt(p1, file = 'graph-01.pptx')
 # graph2ppt(p2, file = 'graph-02.pptx')
 # graph2ppt(p3, file = 'graph-03.pptx')
-
+```
 
 

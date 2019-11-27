@@ -2,6 +2,7 @@
 title: ""
 ---
 
+```{r, echo=FALSE, warnings=FALSE, message=FALSE, fig.align='center'}
 # 聚明胶肽绘图
 library(ggplot2)
 library(openxlsx)
@@ -11,7 +12,7 @@ library(ggthemes)
 data <- read.xlsx("190713.xlsx")
 
 # 箱线图
-ggplot(data) +
+p <- ggplot(data) +
   geom_boxplot(aes(x = product, y = xhd, fill = batch)) +
   # geom_hline(yintercept = 1.5) +
   # geom_hline(yintercept = 2.9) +
@@ -29,7 +30,7 @@ ggplot(data) +
   theme_wsj()
 
 # 酰化值
-(p1 <- ggplot(data, aes(x = num, y = xhd, fill = product)) + 
+p1 <- ggplot(data, aes(x = num, y = xhd, fill = product)) + 
   geom_bar(position = "dodge", stat = "identity") + 
   scale_fill_manual(values = c("#330099","#6699FF","#9966CC","#660066","#00FF00"),
                     name = "产品",
@@ -45,16 +46,17 @@ ggplot(data) +
   xlab("品种") +
   #ggtitle(paste("雪派??", "与4种市售产品的酰化度比较")) +
   ggtitle(~ paste("雪派" ^ "\U00AE", "与4种市售产品的酰化度比较")) +
-    ggtitle(STR1)+
+    #ggtitle(STR1)+
   annotate("rect", ymin = 0.015, ymax = 0.029, xmin = 0, xmax = 16, fill = "red", alpha = 0.05) +
-  theme_wsj())
+  theme_wsj()
   #annotate("text", x = 2.8, y = 0.0285, size = 5, label = "酰化度标准规定：1.5% ~ 2.9%"))
-library(export)
-graph2ppt(p1, file = "xianhuadu.pptx", aspectr = 1.618, width = 10)
+
+# library(export)
+# graph2ppt(p1, file = "xianhuadu.pptx", aspectr = 1.618, width = 10)
 
 
 # 交联剂残留
-(p2 <- ggplot(data, aes(x = num, y = jljcl, fill = product)) + 
+p2 <- ggplot(data, aes(x = num, y = jljcl, fill = product)) + 
   geom_bar(position = "dodge", stat = "identity") + 
   scale_fill_manual(values = c("#99CCCC","#669999","#CCFFCC","#99CC66","#00FF00"),
                     name = "产品",
@@ -68,14 +70,15 @@ graph2ppt(p1, file = "xianhuadu.pptx", aspectr = 1.618, width = 10)
   ylab("交联剂残留量") + 
   xlab("品种") +
   ggtitle("雪派??与4种市售产品的交联剂残留量比较") +
-    theme_wsj())
+    theme_wsj()
   #annotate("rect", ymin = 0.015, ymax = 0.029, xmin = 0, xmax = 16, fill = "red", alpha = 0.05) +
   #annotate("text", x = 3.5, y = 520, size = 5, label = "交联剂残留量标准规定：≤ 500mg/L"))
-graph2ppt(p2, file = "jljcl.pptx", aspectr = 1.618, width = 10)
+
+# graph2ppt(p2, file = "jljcl.pptx", aspectr = 1.618, width = 10)
 
 
 # 重均分子量
-(p3 <- ggplot(data, aes(x = num, y = zjfzl, fill = product)) + 
+p3 <- ggplot(data, aes(x = num, y = zjfzl, fill = product)) + 
   geom_bar(position = "dodge", stat = "identity") + 
   scale_fill_manual(values = c("#9999CC","#666699","#9999FF","#CCCCFF","#00FF00"),
                     name = "产品",
@@ -90,14 +93,14 @@ graph2ppt(p2, file = "jljcl.pptx", aspectr = 1.618, width = 10)
   xlab("品种") +
   ggtitle("雪派??与4种市售产品的重均分子量比较") +
   annotate("rect", ymin = 2.75, ymax = 3.85, xmin = 0, xmax = 16, fill = "blue", alpha = 0.1) +
-    theme_wsj())
+    theme_wsj()
   #annotate("text", x = 3.5, y = 3.75, size = 5, label = "重均分子量标准规定：2.75万~3.85万"))
 
-graph2ppt(p3, file = "zjfzl.pptx", aspectr = 1.618, width = 10)
+# graph2ppt(p3, file = "zjfzl.pptx", aspectr = 1.618, width = 10)
 
 
 # 游离氨基
-(p4 <- ggplot(data, aes(x = num, y = ylaj, fill = product)) + 
+p4 <- ggplot(data, aes(x = num, y = ylaj, fill = product)) + 
   geom_bar(position = "dodge", stat = "identity") + 
   scale_fill_manual(values = c("#789262","#549688","#48C0A3","#7BCFA6","#00FF00"),
                     name = "产品",
@@ -112,10 +115,10 @@ graph2ppt(p3, file = "zjfzl.pptx", aspectr = 1.618, width = 10)
   xlab("品种") +
   ggtitle("雪派??与4种市售产品的游离氨基值比较") +
   annotate("rect", ymin = 0.5, ymax = 0.65, xmin = 0, xmax = 16, fill = "blue", alpha = 0.1) +
-    theme_wsj())
+    theme_wsj()
   #annotate("text", x = 3.2, y = 0.68, size = 5, label = "游离氨基值标准规定：0.50 ~ 0.65"))
 
-graph2ppt(p4, file = "ylajz.pptx", aspectr = 1.618, width = 10)
+# graph2ppt(p4, file = "ylajz.pptx", aspectr = 1.618, width = 10)
 
 
 library(cowplot)
@@ -123,4 +126,4 @@ p <- plot_grid(p1, p2, p3, p4, ncol = 1,
                labels = paste(LETTERS[1:4], ")"),
                label_size = 20)
 p
-
+```

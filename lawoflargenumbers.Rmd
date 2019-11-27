@@ -3,6 +3,7 @@ title: ""
 ---
 # law of large number
 # 大数定理/掷骰子
+```{r, warnings=FALSE, message=FALSE, fig.align='center'}
 dice <- function(n){
   library(ggplot2)
   m = 0
@@ -22,3 +23,11 @@ dice <- function(n){
   df <- data.frame(times, p)
   ggplot(df, aes(x = times, y = p)) + geom_line() + geom_smooth(method = lm)
 }
+
+library(ggthemes)
+p1 <- dice(200) + theme_bw()
+p2 <- dice(2000) + theme_bw()
+p3 <- dice(20000) + theme_bw()
+p4 <- dice(200000) + theme_bw()
+cowplot::plot_grid(p1, p2, p3, p4, ncol = 2)
+```

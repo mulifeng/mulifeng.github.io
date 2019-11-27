@@ -18,17 +18,17 @@ title: ""
 <img src="https://raw.githubusercontent.com/LucyMcGowan/lucymcgowan.github.io/master/figs/coffee.png" alt="coffee" style="width:400px;" align = "top"/> 
 </div>
 <div class="col-xs-12 col-sm-7">
-<span style="font-family:myFancyFont; font-size:3em;">These days I like to discuss</span>
+<span style="font-family:myFancyFont; font-size:3em;">Hello world !</span>
 
 Some works in the period of graduate study.
 
-## [Data Visualization in R](http://nickstrayer.me/visualization_in_r/)
+## [Data Visualization in R]
 
-- 
-- 
-- 
+- [jdkczbxx](https://mulifeng.github.io/jdkczbxx.html)
+- [jmjt](https://mulifeng.github.io/jmjt.html)
+- [zcslxxcx](https://mulifeng.github.io/zcslxxcx.html)
 
-## [Statistical Plots](http://bl.ocks.org/nstrayer/37a503dd1db369a8f7e3ce21757e19ee)
+## [Statistical Plots](https://mulifeng.github.io/lawoflargenumbers.html)
 
 - 
 - 

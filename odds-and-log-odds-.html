@@ -10,9 +10,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Mu Lifeng" />
 
 
-<title>index.utf8</title>
+<title>odds and log(odds)</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -296,12 +297,88 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">odds and log(odds)</h1>
+<h4 class="author">Mu Lifeng</h4>
+<h4 class="date">2019/10/3</h4>
 
 </div>
 
 
-<p>indapamide-related patents</p>
-<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="data" class="section level1">
+<h1>data</h1>
+<pre class="r"><code>set.seed(2019-10-01)
+a &lt;- runif(100, 1, 100)
+b &lt;- 100-a
+odds &lt;- a/b
+data &lt;- data.frame(a = a, b = b, odds = odds)</code></pre>
+</div>
+<div id="ggplot2绘图" class="section level1">
+<h1>ggplot2绘图</h1>
+<pre class="r"><code>library(ggplot2)
+p1 &lt;- ggplot(data, aes(x = odds)) + 
+  geom_histogram(aes(y = ..density..), fill = &quot;#4169E1&quot;, bins = 30) + 
+  geom_density(color = &quot;#FF4500&quot;, size = 1)
+
+p2 &lt;- ggplot(data, aes(x = log(odds))) + 
+  geom_histogram(aes(y = ..density..), fill = &quot;#4169E1&quot;, bins = 10) +
+  geom_density(aes(log(odds))) +
+  geom_line(aes(x = log(odds), 
+                y = dnorm(log(odds), mean = mean(log(odds)), sd = sd(log(odds)))),
+            color = &quot;#FF4500&quot;, size = 1)
+
+p3 &lt;- ggplot(data, aes(x = log10(odds))) + 
+  geom_histogram(aes(y = ..density..), fill = &quot;#4169E1&quot;, bins = 10) +
+  geom_line(aes(x = log10(odds), 
+                y = dnorm(log10(odds), mean = mean(log10(odds)), sd = sd(log10(odds)))),
+            color = &quot;#FF4500&quot;, size = 1)
+
+p4 &lt;- ggplot(data, aes(x = log2(odds))) + 
+  geom_histogram(aes(y = ..density..), fill = &quot;#4169E1&quot;, bins = 10) +
+  geom_line(aes(x = log2(odds), 
+                y = dnorm(log2(odds), mean = mean(log2(odds)), sd = sd(log2(odds)))),
+            color = &quot;#FF4500&quot;, size = 1)
+cowplot::plot_grid(p1, p2, p3, p4)</code></pre>
+<p><img src="odds-and-log-odds-_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="传统绘图系统" class="section level1">
+<h1>传统绘图系统</h1>
+<pre class="r"><code>opar &lt;- par(no.readonly = TRUE)
+par(mfrow = c(2, 2))
+hist(odds, breaks = 50)
+# 容易发现数据呈现偏态分布
+# 将odds取对数
+## loge
+hist(log(odds), breaks = 20, freq = F)
+curve(dnorm(x, 
+            mean = mean(log(odds)),
+            sd = sd(log(odds))),
+      add = TRUE,
+      col=&quot;darkblue&quot;, 
+      lwd=2)
+
+## log10
+hist(log10(odds), breaks = 10, freq = F)
+curve(dnorm(x, 
+            mean = mean(log10(odds)),
+            sd = sd(log10(odds))),
+      add = TRUE,
+      col=&quot;darkblue&quot;, 
+      lwd=2)
+
+## log2
+hist(log2(odds), breaks = 10, freq = F)
+curve(dnorm(x, 
+            mean = mean(log2(odds)),
+            sd = sd(log2(odds))),
+      add = TRUE,
+      col=&quot;darkblue&quot;, 
+      lwd=2)</code></pre>
+<p><img src="odds-and-log-odds-_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>par(opar)</code></pre>
+<p>The log(odds) makes things symmetrical, easier to interpret and easier for fancy statistics.</p>
+<p>Logarithms are an incredibly useful transformation for dealing with data that ranges across multiple orders of magnitude. They also convert multiplicative relationships to additive All else being equal, I recommend using log2() because it’s easy to interpret: a difference of 1 on the log scale corresponds to doubling on the original scale and a difference of –1 corresponds to halving.</p>
+<p>REFERENCE: Wickham H, Grolemund G. R for data science: import, tidy, transform, visualize, and model data[M]. " O’Reilly Media, Inc.", 2016.</p>
+</div>
 
 
 

@@ -12,7 +12,7 @@
 
 
 
-<title>index.utf8</title>
+<title>lawoflargenumbers.utf8</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -300,8 +300,39 @@ $(document).ready(function () {
 </div>
 
 
-<p>indapamide-related patents</p>
-<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="law-of-large-number" class="section level1">
+<h1>law of large number</h1>
+</div>
+<div id="大数定理掷骰子" class="section level1">
+<h1>大数定理/掷骰子</h1>
+<pre class="r"><code>dice &lt;- function(n){
+  library(ggplot2)
+  m = 0
+  times = c()
+  p = c()
+  for (i in 1:n) {
+    value = sample(c(1, 2, 3, 4, 5, 6), 1, replace = TRUE, prob = c(1/6, 1/6, 1/6, 1/6, 1/6, 1/6))
+    if(value == 1){
+      m = m + 1
+      times[i] = m
+      p[i] = m/i
+    }else{
+      times[i] = m
+      p[i] = m/i
+    }
+  }
+  df &lt;- data.frame(times, p)
+  ggplot(df, aes(x = times, y = p)) + geom_line() + geom_smooth(method = lm)
+}
+
+library(ggthemes)
+p1 &lt;- dice(200) + theme_bw()
+p2 &lt;- dice(2000) + theme_bw()
+p3 &lt;- dice(20000) + theme_bw()
+p4 &lt;- dice(200000) + theme_bw()
+cowplot::plot_grid(p1, p2, p3, p4, ncol = 2)</code></pre>
+<p><img src="lawoflargenumbers_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
 
 
 
