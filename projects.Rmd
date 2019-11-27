@@ -5,13 +5,14 @@ title: ""
 Hello world !
 Some works in the period of graduate study.
 
-## [Data Visualization in R]
+## Data Visualization in R
 
 - [jdkczbxx](https://mulifeng.github.io/jdkczbxx.html)
 - [jmjt](https://mulifeng.github.io/jmjt.html)
 - [zcslxxcx](https://mulifeng.github.io/zcslxxcx.html)
 
-## [Statistical Plots](https://mulifeng.github.io/lawoflargenumbers.html)
+## Statistical Plots
 
-- 
-- 
+- [Law of large numbers](https://mulifeng.github.io/lawoflargenumbers.html)
+- [Monty Hall Problem](https://mulifeng.github.io/Monty-Hall-Problem.html)
+- [odds and log(odds)](https://mulifeng.github.io/odds-and-log-odds.html)

@@ -2,6 +2,7 @@
 title: ""
 ---
 
+
 ```{r, echo=FALSE, warnings=FALSE, message=FALSE, fig.align='center'}
 # 聚明胶肽绘图
 library(ggplot2)
