@@ -1,8 +1,5 @@
 ---
 title: "odds and log(odds)"
-author: "Mu Lifeng"
-date: "2019/10/3"
-output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -51,8 +48,8 @@ cowplot::plot_grid(p1, p2, p3, p4)
 opar <- par(no.readonly = TRUE)
 par(mfrow = c(2, 2))
 hist(odds, breaks = 50)
-# 容易发现数据呈现偏态分布
-# 将odds取对数
+# 容易发现数据呈现偏态分�?
+# 将odds取对�?
 ## loge
 hist(log(odds), breaks = 20, freq = F)
 curve(dnorm(x, 
@@ -90,7 +87,7 @@ with data that ranges across multiple orders of magnitude. They
 also convert multiplicative relationships to additive
 All else being equal, I recommend using log2() because it’s easy
 to interpret: a difference of 1 on the log scale corresponds to
-doubling on the original scale and a difference of –1 corresponds
+doubling on the original scale and a difference of �?1 corresponds
 to halving.
 
 REFERENCE: 

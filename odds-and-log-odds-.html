@@ -10,7 +10,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Mu Lifeng" />
 
 
 <title>odds and log(odds)</title>
@@ -298,8 +297,6 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">odds and log(odds)</h1>
-<h4 class="author">Mu Lifeng</h4>
-<h4 class="date">2019/10/3</h4>
 
 </div>
 
@@ -345,8 +342,8 @@ cowplot::plot_grid(p1, p2, p3, p4)</code></pre>
 <pre class="r"><code>opar &lt;- par(no.readonly = TRUE)
 par(mfrow = c(2, 2))
 hist(odds, breaks = 50)
-# 容易发现数据呈现偏态分布
-# 将odds取对数
+# 容易发现数据呈现偏态分攼㸵戼㸸?
+# 将odds取对攼㸶㤼㸵?
 ## loge
 hist(log(odds), breaks = 20, freq = F)
 curve(dnorm(x, 
@@ -376,8 +373,7 @@ curve(dnorm(x,
 <p><img src="odds-and-log-odds-_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code>par(opar)</code></pre>
 <p>The log(odds) makes things symmetrical, easier to interpret and easier for fancy statistics.</p>
-<p>Logarithms are an incredibly useful transformation for dealing with data that ranges across multiple orders of magnitude. They also convert multiplicative relationships to additive All else being equal, I recommend using log2() because it’s easy to interpret: a difference of 1 on the log scale corresponds to doubling on the original scale and a difference of –1 corresponds to halving.</p>
-<p>REFERENCE: Wickham H, Grolemund G. R for data science: import, tidy, transform, visualize, and model data[M]. " O’Reilly Media, Inc.", 2016.</p>
+<p>Logarithms are an incredibly useful transformation for dealing with data that ranges across multiple orders of magnitude. They also convert multiplicative relationships to additive All else being equal, I recommend using log2() because it’s easy to interpret: a difference of 1 on the log scale corresponds to doubling on the original scale and a difference of</p>
 </div>
 
 
