@@ -10,13 +10,14 @@ Some works in the period of graduate study.
 - [jdkczbxx](https://mulifeng.github.io/jdkczbxx.html)
 - [jmjt](https://mulifeng.github.io/jmjt.html)
 - [zcslxxcx](https://mulifeng.github.io/zcslxxcx.html)
+- [patent2019](https://mulifeng.github.io/patent2019.html)
 
 ## Statistical Plots
 
-- [Law of large numbers](https://mulifeng.github.io/lawoflargenumbers.html)
-- [Monty Hall Problem](https://mulifeng.github.io/Monty-Hall-Problem.html)
-- [odds and log(odds)](https://mulifeng.github.io/odds-and-log-odds.html)
-- [DBDA-p79]()
+# [Law of large numbers](https://mulifeng.github.io/lawoflargenumbers.html)
+# [Monty Hall Problem](https://mulifeng.github.io/Monty-Hall-Problem.html)
+- [odds and log(odds)](https://mulifeng.github.io/odds-and-log-odds-.html)
+- [DBDA-p79](https://mulifeng.github.io/geom_line-vs-geom_path.html)
 
 ## Pharmacoeconomics
 

@@ -300,17 +300,6 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>library(ggplot2)
-library(ggthemes)
-N &lt;- 100  # 
-height &lt;- rnorm(N, mean=67, sd=5)
-data &lt;- data.frame(x = 1:N, height)
-ggplot(data, aes(x=height, y=x)) + geom_point(color = &quot;#7d5886&quot;, size = 2)+
-  geom_path(color = &quot;#f47920&quot;, size = 1.2) + 
-  geom_line(color = &quot;#1d953f&quot;, size = 1.2) +
-  ggtitle(label = &quot;geom_line() vs. geom_path()&quot;) +
-  theme_wsj() +
-  theme(plot.title = element_text(size = 15))</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 
 
