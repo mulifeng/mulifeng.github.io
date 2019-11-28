@@ -1,0 +1,34 @@
+---
+title: ""
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# doing bayesian data analysis a tutorial with R JAGS  
+# P79
+# scatterplot
+
+# 产生模拟身高随机数
+library(ggplot2)
+library(ggthemes)
+N <- 10000  # 
+height <- rnorm(N, mean=67, sd=5)
+data <- data.frame(x = 1:N, height)
+ggplot(data, aes(x=height, y=x)) + geom_point(color = "#7d5886", size = 2) +
+  geom_vline(xintercept = seq(51, 83, by = 2), linetype = 2) +
+  ylab("") + xlab("") +
+  theme_base()
+
+ggplot(data) + geom_histogram(aes(x = height, y = ..density..))
+ggplot(data) + geom_density(aes(x = height))
+####################
+
+N <- 100  # 
+height <- rnorm(N, mean=67, sd=5)
+data <- data.frame(x = 1:N, height)
+ggplot(data, aes(x=height, y=x)) + geom_point(color = "#7d5886", size = 2)+
+  geom_path(color = "#f47920", size = 1.5) + 
+  geom_line(color = "#1d953f", size = 1.5) +
+  ggtitle(label = "geom_line() vs. geom_path()") +
+  theme_wsj() +
+  theme(plot.title = element_text(size = 15))
+```
