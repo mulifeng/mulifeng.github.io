@@ -7,14 +7,14 @@ navbar:
     - text: "Home"
       icon: fa-home
       href: index.html
-    - text: "Projects"     ##### the new
-      icon: ion-md-archive
-      href: projects.html  ##### stuff
+    - text: "Projects"     
+      icon: glyphicon-tasks
+      href: projects.html
     - text: "Publications"
       icon: ion-ios-paper
       href: publications.html
     - text: "About Me"
-      icon: fa-info
+      icon: glyphicon-info-sign
       href: about.html
     - text: "More"
       icon: fa-gear
@@ -32,7 +32,7 @@ navbar:
           href: page-d.html
   right:
         - icon: fa-question fa-lg
-          href: https://example.com
+          href: https://mulifeng.github.io
       
 output:
   html_document:

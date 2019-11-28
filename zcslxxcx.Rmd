@@ -7,11 +7,11 @@ title: ""
 knitr::opts_chunk$set(cache = TRUE)
 ```
 
-## 注册受理信息更新查询-NMPA数据分析
-# 使用tidyverse package进行数据处理和绘图
+### 注册受理信息更新查询-NMPA数据分析
+### 使用tidyverse package进行数据处理和绘图
 
-# A 中药 B 化药  C 生物制品 D 体外试剂
-# a新药 b 进口 c 进口再注册 d 仿制&已有国家标准 e 补充申请 f 小计 
+### A 中药 B 化药  C 生物制品 D 体外试剂
+### a新药 b 进口 c 进口再注册 d 仿制&已有国家标准 e 补充申请 f 小计 
 
 ```{r, echo=FALSE, warnings=FALSE, message=FALSE, fig.align='center'}
 library(tidyverse)
@@ -62,7 +62,7 @@ data3 <- data %>%
                         labels = c('新药', '进口', '进口再注册', '仿制&已有国家标准', '补充申请')) +
   labs(title = 'CDE受理情况') +
   xlab('年份') + ylab('受理数量') +
-  theme_wsj(color = 'green'))
+  theme_bw())
 
 # graph2ppt(p1, file = 'graph-01.pptx')
 # graph2ppt(p2, file = 'graph-02.pptx')
