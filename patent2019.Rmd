@@ -2,6 +2,10 @@
 title: ""
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
 indapamide-related patents
 
 ```{r, echo = FALSE, warnings=FALSE, message=FALSE, fig.align='center'}

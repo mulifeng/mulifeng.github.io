@@ -2,6 +2,10 @@
 title: ""
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
 ```{r, echo=FALSE, warnings=FALSE, message=FALSE, fig.align='center'}
 # 聚多卡醇中标信息分析
 

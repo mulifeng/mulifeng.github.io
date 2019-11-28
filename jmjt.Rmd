@@ -3,6 +3,10 @@ title: ""
 ---
 
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
 ```{r, echo=FALSE, warnings=FALSE, message=FALSE, fig.align='center'}
 # 聚明胶肽绘图
 library(ggplot2)

@@ -1,8 +1,12 @@
 ---
-title: ""
+title: ''
 ---
 
-ha, Welcome to my world!
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+# ha, welcome to my world!
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -13,7 +17,15 @@ data <- data.frame(x = 1:N, height)
 ggplot(data, aes(x=height, y=x)) + geom_point(color = "#7d5886", size = 2)+
   geom_path(color = "#f47920", size = 1.2) + 
   geom_line(color = "#1d953f", size = 1.2) +
-  ggtitle(label = "geom_line() vs. geom_path()") +
-  theme_wsj() +
-  theme(plot.title = element_text(size = 15))
+  #ggtitle(label = "geom_line() vs. geom_path()") +
+  #theme_wsj() +
+  #theme(plot.title = element_text(size = 15)) +
+  theme_bw() +
+  theme(panel.background = element_blank(),
+        #panel.grid = element_line(colour = "#CCCCCC"),
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.line = element_blank(),
+        panel.border = element_blank())
 ```

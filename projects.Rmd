@@ -2,9 +2,6 @@
 title: ""
 ---
 
-# Hello world !
-#### Some works in the period of graduate study.
-
 ## Data Visualization in R
 
 ### [jdkczbxx](https://mulifeng.github.io/jdkczbxx.html)

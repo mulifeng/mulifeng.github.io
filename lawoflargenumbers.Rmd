@@ -1,6 +1,12 @@
 ---
 title: ""
 ---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
 # law of large number
 # 大数定理/掷骰子
 ```{r, warnings=FALSE, message=FALSE, fig.align='center'}
