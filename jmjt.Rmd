@@ -56,7 +56,7 @@ p1 <- ggplot(data, aes(x = num, y = xhd, fill = product)) +
   annotate("rect", ymin = 0.015, ymax = 0.029, xmin = 0, xmax = 16, fill = "red", alpha = 0.05) +
   theme_wsj()
   #annotate("text", x = 2.8, y = 0.0285, size = 5, label = "酰化度标准规定：1.5% ~ 2.9%"))
-
+p1
 # library(export)
 # graph2ppt(p1, file = "xianhuadu.pptx", aspectr = 1.618, width = 10)
 
@@ -79,7 +79,7 @@ p2 <- ggplot(data, aes(x = num, y = jljcl, fill = product)) +
     theme_wsj()
   #annotate("rect", ymin = 0.015, ymax = 0.029, xmin = 0, xmax = 16, fill = "red", alpha = 0.05) +
   #annotate("text", x = 3.5, y = 520, size = 5, label = "交联剂残留量标准规定：≤ 500mg/L"))
-
+p2
 # graph2ppt(p2, file = "jljcl.pptx", aspectr = 1.618, width = 10)
 
 
@@ -101,7 +101,7 @@ p3 <- ggplot(data, aes(x = num, y = zjfzl, fill = product)) +
   annotate("rect", ymin = 2.75, ymax = 3.85, xmin = 0, xmax = 16, fill = "blue", alpha = 0.1) +
     theme_wsj()
   #annotate("text", x = 3.5, y = 3.75, size = 5, label = "重均分子量标准规定：2.75万~3.85万"))
-
+p3
 # graph2ppt(p3, file = "zjfzl.pptx", aspectr = 1.618, width = 10)
 
 
@@ -123,7 +123,7 @@ p4 <- ggplot(data, aes(x = num, y = ylaj, fill = product)) +
   annotate("rect", ymin = 0.5, ymax = 0.65, xmin = 0, xmax = 16, fill = "blue", alpha = 0.1) +
     theme_wsj()
   #annotate("text", x = 3.2, y = 0.68, size = 5, label = "游离氨基值标准规定：0.50 ~ 0.65"))
-
+p4
 # graph2ppt(p4, file = "ylajz.pptx", aspectr = 1.618, width = 10)
 
 
@@ -131,5 +131,5 @@ library(cowplot)
 p <- plot_grid(p1, p2, p3, p4, ncol = 2,
                labels = paste(LETTERS[1:4], ")"),
                label_size = 20)
-p
+
 ```
