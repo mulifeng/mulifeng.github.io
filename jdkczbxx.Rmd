@@ -6,7 +6,7 @@ title: ""
 knitr::opts_chunk$set(cache = TRUE)
 ```
 
-```{r, echo=FALSE, warnings=FALSE, message=FALSE, fig.align='center'}
+```{r, echo=FALSE, warnings=FALSE, message=FALSE}
 # 聚多卡醇中标信息分析
 
 library(openxlsx)
@@ -32,7 +32,8 @@ ggplot(data, aes(x = as.Date(data$date, origin = '1899-12-30'),
   xlab("中标日期") +
   ylab("中标价格（元/支）") +
   scale_shape_discrete('生产企业') +
-  scale_colour_discrete('规格')
+  scale_colour_discrete('规格')+
+  theme(plot.margin = unit(c(0,0,0,0),"cm"))
 ```
 
 
