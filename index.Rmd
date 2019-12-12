@@ -6,7 +6,9 @@ title: ''
 knitr::opts_chunk$set(cache = TRUE)
 ```
 <br/><br/>
+
 # Wow, welcome to my world!
+
 <br/><br/>
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
