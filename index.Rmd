@@ -10,7 +10,7 @@ knitr::opts_chunk$set(cache = TRUE)
 # Wow, welcome to my world!
 
 <br/><br/>
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width=5, fig.height=5}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width=4, fig.height=4}
 library(ggplot2)
 library(ggthemes)
 N <- 100  # 
