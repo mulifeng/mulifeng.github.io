@@ -8,7 +8,7 @@ knitr::opts_chunk$set(cache = TRUE)
 
 indapamide-related patents
 
-```{r, echo = FALSE, warnings=FALSE, message=FALSE, fig.align='center'}
+```{r, echo = FALSE, warnings=FALSE, message=FALSE, fig.align='center', fig.width=14}
 # 国别分布、省市分布
 library(maps)
 library(ggplot2)

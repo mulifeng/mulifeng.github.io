@@ -6,7 +6,7 @@ title: ""
 knitr::opts_chunk$set(cache = TRUE)
 ```
 
-```{r, echo=FALSE, warnings=FALSE, message=FALSE}
+```{r, echo=FALSE, warnings=FALSE, message=FALSE, fig.width=12}
 # 聚多卡醇中标信息分析
 
 library(openxlsx)
