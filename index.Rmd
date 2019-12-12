@@ -10,15 +10,15 @@ knitr::opts_chunk$set(cache = TRUE)
 # Wow, welcome to my world!
 
 <br/><br/>
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width=4, fig.height=4}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.width=4, fig.height=3}
 library(ggplot2)
 library(ggthemes)
 N <- 100  # 
 height <- rnorm(N, mean=67, sd=5)
 data <- data.frame(x = 1:N, height)
 ggplot(data, aes(x=height, y=x)) + geom_point(color = "#7d5886", size = 2)+
-  geom_path(color = "#f47920", size = 1.2) + 
-  geom_line(color = "#1d953f", size = 1.2) +
+  geom_path(color = "#f47920", size = 1) + 
+  geom_line(color = "#1d953f", size = 1) +
   #ggtitle(label = "geom_line() vs. geom_path()") +
   #theme_wsj() +
   #theme(plot.title = element_text(size = 15)) +
