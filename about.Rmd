@@ -11,6 +11,6 @@ title: ""
 
 ### This Is Who I Am. 
 
-![](me4.jpg)
+![](me4.jpg, widht="300")
 
 
