@@ -11,6 +11,6 @@ title: ""
 
 ### This Is Who I Am. 
 
-![](me4.jpg){:height="100px" width="400px"}
-
+![](me4.jpg)
+<img src="./me2.jpg" width = "300" height = "200" alt="me" align=center />
 
