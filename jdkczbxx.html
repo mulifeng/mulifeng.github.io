@@ -13,6 +13,7 @@
 
 <title>jdkczbxx.utf8</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -25,6 +26,15 @@
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -70,6 +80,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
@@ -277,7 +288,7 @@ $(document).ready(function () {
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
     Home
   </a>
@@ -305,7 +316,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-gear"></span>
+    <span class="fas fa-gear"></span>
      
     More
      
@@ -333,7 +344,7 @@ $(document).ready(function () {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://mulifeng.github.io">
-    <span class="fa fa-question fa-lg"></span>
+    <span class="fas fa-question fa-lg"></span>
      
   </a>
 </li>
@@ -350,33 +361,47 @@ $(document).ready(function () {
 </div>
 
 
-<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : span too
-## small. fewer data values than degrees of freedom.</code></pre>
-<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : pseudoinverse
-## used at 16700</code></pre>
-<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : neighborhood
-## radius 1071.6</code></pre>
-<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : reciprocal
-## condition number 0</code></pre>
-<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : There are
-## other near singularities as well. 1.172e+006</code></pre>
-<pre><code>## Warning in sqrt(sum.squares/one.delta): 产生了NaNs</code></pre>
-<pre><code>## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
-## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : span too small.
-## fewer data values than degrees of freedom.</code></pre>
-<pre><code>## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
-## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse
-## used at 16700</code></pre>
-<pre><code>## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
-## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : neighborhood
-## radius 1071.6</code></pre>
-<pre><code>## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
-## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : reciprocal
-## condition number 0</code></pre>
-<pre><code>## Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if
-## (is.data.frame(newdata)) as.matrix(model.frame(delete.response(terms(object)), : There are other
-## near singularities as well. 1.172e+006</code></pre>
-<pre><code>## Warning in stats::qt(level/2 + 0.5, pred$df): 产生了NaNs</code></pre>
+<pre><code>## Warning: Use of `data$date` is discouraged. Use `date` instead.
+
+## Warning: Use of `data$date` is discouraged. Use `date` instead.
+
+## Warning: Use of `data$date` is discouraged. Use `date` instead.</code></pre>
+<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.</code></pre>
+<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 16700</code></pre>
+<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 1071.6</code></pre>
+<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0</code></pre>
+<pre><code>## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 1.172e+006</code></pre>
+<pre><code>## Warning in sqrt(sum.squares/one.delta): NaNs produced</code></pre>
+<pre><code>## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small. fewer
+## data values than degrees of freedom.</code></pre>
+<pre><code>## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used at
+## 16700</code></pre>
+<pre><code>## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 1071.6</code></pre>
+<pre><code>## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal condition
+## number 0</code></pre>
+<pre><code>## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other near
+## singularities as well. 1.172e+006</code></pre>
+<pre><code>## Warning in stats::qt(level/2 + 0.5, pred$df): NaNs produced</code></pre>
+<pre><code>## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning -
+## Inf</code></pre>
+<pre><code>## Warning: ggrepel: 45 unlabeled data points (too many overlaps). Consider
+## increasing max.overlaps</code></pre>
 <p><img src="jdkczbxx_files/figure-html/unnamed-chunk-1-1.png" width="1152" /></p>
 
 
@@ -388,7 +413,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

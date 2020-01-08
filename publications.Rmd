@@ -1,5 +1,5 @@
 ---
-title: ""
+title: ''
 ---
 <br/><br/>
 
@@ -15,5 +15,7 @@ title: ""
 <br/><br/>
 [5] 郎罡,温海燕, **_母立峰_**, 宋金春.地氯雷他定治疗荨麻疹疗效和安全性Meta分析[J].临床荟萃,2019,34(08):752-758.
 <br/><br/>
-[6] **_Lifeng Mu_**, Benhong Zhou. Letter: Cost-Effectiveness of Alectinib for Patients with Untreated ALK-Positive Non-Small Cell Lung Cancer in China. _Advances in Therapy_ (in press)
+[6] **_Lifeng Mu_**, Benhong Zhou. Letter: Cost-Effectiveness of Alectinib for Patients with Untreated ALK-Positive Non-Small Cell Lung Cancer in China. _Advances in Therapy_. doi: 10.1007/s12325-019-01204-0.
+<br/><br/>
+[7]  **_母立峰_**, 郭咸希,胡艳茹,黄岭,戎佩佩,周本宏.克唑替尼一线治疗ALK阳性非小细胞肺癌的成本-效果分析[J].中国药师,2020,23(06):1119-1123.
 
