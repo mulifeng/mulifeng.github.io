@@ -1,0 +1,101 @@
+---
+title: "questionaboutflexsurv"
+author: "mulifeng"
+date: "2021/3/1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(flexsurv)
+library(tidyverse)
+```
+
+```{r}
+data(bc)
+bc_good <- bc %>% filter(group == "Good")
+bc_medium <- bc %>% filter(group == "Medium")
+bc_poor <- bc %>% filter(group == "Poor")
+```
+
+
+```{r}
+########## weibull
+res_aft <- flexsurvreg(Surv(recyrs, censrec) ~ group, data = bc,
+            dist = "weibull")
+res_ph <- flexsurvreg(Surv(recyrs, censrec) ~ group, data = bc,
+                      dist = "weibullPH")
+res_good_aft <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_good,
+            dist = "weibull")
+res_good_ph <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_good,
+                            dist = "weibullPH")
+res_medium <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_medium,
+            dist = "weibullPH")
+res_poor <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_poor,
+            dist = "weibullPH")
+
+
+# 比较AFT模型和PH模型
+plot(res_aft)
+lines(res_ph, col = "blue")
+lines(res_good_ph, col = "blue")
+lines(res_good_aft, col = "green")
+lines(res_medium)
+lines(res_poor)
+
+# 比较单组
+plot(res_good_ph, col = "blue")
+lines(res_good_aft, col = "green")
+
+
+# 
+plot(res_good_aft)
+lines(res_good_ph, col = "blue")
+
+#plot(res)
+# lines(res_good)
+# lines(res_medium)
+# lines(res_poor)
+
+```
+
+```{r}
+
+############# gompertz
+res_ph_gmp <- flexsurvreg(Surv(recyrs, censrec) ~ group, data = bc,
+                      dist = "gompertz")
+res_good_ph_gmp <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_good,
+                           dist = "gompertz")
+res_medium_ph_gmp <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_medium,
+                               dist = "gompertz")
+res_poor_ph_gmp <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_poor,
+                               dist = "gompertz")
+
+plot(res_ph_gmp)
+lines(res_good_ph_gmp, col = "blue")
+lines(res_medium_ph_gmp, col = "blue")
+lines(res_poor_ph_gmp, col = "blue")
+
+```
+
+```{r}
+#########exp
+res_ph_exp <- flexsurvreg(Surv(recyrs, censrec) ~ group, data = bc,
+                          dist = "exp")
+res_good_ph_exp <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_good,
+                               dist = "exp")
+res_medium_ph_exp <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_medium,
+                                 dist = "exp")
+res_poor_ph_exp <- flexsurvreg(Surv(recyrs, censrec) ~ 1, data = bc_poor,
+                               dist = "exp")
+
+plot(res_ph_exp)
+lines(res_good_ph_exp, col = "blue")
+lines(res_medium_ph_exp, col = "blue")
+lines(res_poor_ph_exp, col = "blue")
+
+```
+
