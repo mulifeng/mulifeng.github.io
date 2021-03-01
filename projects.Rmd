@@ -19,6 +19,7 @@ title: ''
 ### [Monty Hall Problem](https://mulifeng.github.io/Monty-Hall-Problem.html)
 ### [odds and log(odds)](https://mulifeng.github.io/odds-and-log-odds-.html)
 ### [DBDA-p79](https://mulifeng.github.io/geom_line-vs-geom_path.html)
+### [MLE](https://mulifeng.github.io/MLE.html)
 
 <br/><br/>
 
