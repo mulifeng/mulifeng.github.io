@@ -28,7 +28,7 @@ title: ''
 
 <br/><br/>
 
-## bayes
+## Bayes
 ### [cooper2004](https://mulifeng.github.io/cooper2004.html)
 
 
