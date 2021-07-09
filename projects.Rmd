@@ -25,3 +25,10 @@ title: ''
 
 ## Pharmacoeconomics
 ### [Question about flexsurv](https://mulifeng.github.io/questionaboutflexsurv.html)
+
+<br/><br/>
+
+## bayes
+### [cooper2004](https://mulifeng.github.io/cooper2004.html)
+
+
