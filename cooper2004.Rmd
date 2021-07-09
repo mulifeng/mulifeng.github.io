@@ -1,0 +1,248 @@
+---
+title: "cooper2004"
+author: "mulifeng"
+date: "2021/7/9"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Comprehensive decision analytical modelling in economic evaluation: a Bayesian approach(doi:10.1002/hec.804)
+
+# pair-wise meta-analysis 贝叶斯方法
+
+<br/><br/>
+
+# 加载程序包
+```{r,warning=FALSE}
+library(R2jags)
+```
+
+# 一、神经氨酸酶抑制剂预防流感
+```{r}
+# 自建模
+if(T){
+bayes_mod <- function(){
+  for (i in 1:NS) {
+    rc[i] ~ dbin(pc[i], nc[i])  # likelihood
+    rt[i] ~ dbin(pt[i], nt[i])  # likelihood
+    logit(pc[i]) <- mu[i]             # model
+    logit(pt[i]) <- mu[i] + delta[i]  # model
+    mu[i] ~ dnorm(0, 0.1)
+    delta[i] ~ dnorm(delt, pre)  # delt代表overall mean LOR
+    
+  }
+  delt ~ dnorm(0, 0.0001)  # Flat Normal prior for delt
+  pre <- 1/(tau*tau)
+  tau ~ dunif(0, 10)  # Wide Uniform prior for tau
+  #delt <- log(OR)  # 注意理解为什么这样的指定方式是错误的
+  OR <- exp(delt)
+  ### 在建模的过程中，可以先写出likelihood，likelihood一般左边为data，然后再写
+  ### 模型，模型连接参数(parameters)和likelihood；最后为参数指定先验分布
+}
+
+# 初始值
+if(T){
+  inits1 <- list(delta = rep(0.5, 6), mu = rep(0.4, 6),
+                 delt = 0.1, tau = 0.1)
+  inits2 <- list(delta = rep(0.4, 6), mu = rep(0.5, 6), 
+                 delt = 0.2, tau = 0.1)
+  inits3 <- list(delta = rep(0.6, 6), mu = rep(0.6, 6), 
+                 delt = 0.1, tau = 0.2)
+  inits <- list(inits1, inits2, inits3)
+}
+
+}
+
+```
+
+# 二、论文中的模型
+```{r}
+
+if(T){
+  bayes_mod <- function(){
+    for( i in 1 : NS)
+    {
+      rc[i] ~ dbin(pc[i], nc[i])
+      rt[i] ~ dbin(pt[i], nt[i])
+      logit(pc[i]) <- mu[i]  # 如果写为mu[i] <- logit(pc[i]) 会报错：Unknown variable pc
+      logit(pt[i]) <- mu[i] + delta[i]
+      # delt = pooled log odds ratio & precision.tau = between-study precision
+      delta[i] ~ dnorm(delt, precision.tau)  
+      mu[i] ~ dnorm(0, 0.1)
+    }
+    delt ~ dnorm(0, 0.0001)
+    tau ~ dunif(0, 10)
+    precision.tau <- 1/tau.squared
+    tau.squared <- tau*tau
+    OR <- exp(delt)
+  }
+  
+  # 设定初始值
+  if(T){
+  inits1 <- list(delta = rep(0.5, 6), mu = rep(0.4, 6), 
+                 delt = 0.1, tau = 0.1)
+  inits2 <- list(delta = rep(0.4, 6), mu = rep(0.5, 6), 
+                 delt = 0.2, tau = 0.1)
+  inits3 <- list(delta = rep(0.6, 6), mu = rep(0.6, 6), 
+                 delt = 0.1, tau = 0.2)
+  inits <- list(inits1, inits2, inits3)
+  }
+
+}
+
+```
+
+# 第三个模型
+```{r}
+
+if(T){
+  bayes.mod <- function(){
+    for (i in 1:NS) {
+      rt[i] ~ dbin(pt[i], nt[i])
+      rc[i] ~ dbin(pc[i], nc[i])
+      logit(pt[i]) <- logit(pc[i]) + delta[i]
+      delta[i] ~ dnorm(delt, prec)
+    }
+    delt ~ dnorm(0, 0.0001)  # vague prior
+    prec <- 1/tau.squared
+    tau.squard <- tau*tau
+    tau ~ dunif(0, 10)
+    OR <- exp(delt)  # 设定其它参数
+  }
+  
+  # initial value
+  if(T){
+    inits1 <- list(delta = rep(0.5, 6), #mu = rep(0.4, 6), 
+                   delt = 0.1, tau = 0.1)
+    inits2 <- list(delta = rep(0.4, 6), #mu = rep(0.5, 6), 
+                   delt = 0.2, tau = 0.1)
+    inits3 <- list(delta = rep(0.6, 6), #mu = rep(0.6, 6), 
+                   delt = 0.1, tau = 0.2)
+    inits <- list(inits1, inits2, inits3)
+  }
+}
+  
+
+```
+
+
+```{r}
+nc <- c(554, 423, 144, 268, 251, 462)
+rc <- c(34, 40, 9, 19, 6, 34)
+nt <- c(553, 414, 144, 268, 252, 493)
+rt <- c(11, 7, 3, 3, 3, 4)
+NS <- 6  # 研究数 number of studies
+
+jags_dat <- list('nc', 'rc', 'nt', 'rt', 'NS')
+jags_params <- c("delt", "OR")
+
+bayes.mod.fit <- jags(data = jags_dat, inits = inits,
+                      parameters.to.save = jags_params, n.chains = 3, n.iter = 10000,
+                      n.burnin = 5000, model.file = bayes_mod)
+```
+
+```{r}
+print(bayes.mod.fit)
+```
+
+```{r}
+plot(bayes.mod.fit)
+```
+
+```{r}
+traceplot(bayes.mod.fit)
+
+```
+
+```{r}
+
+bayes.mod.fit.mcmc <- as.mcmc(bayes.mod.fit)
+summary(bayes.mod.fit.mcmc)
+```
+
+```{r}
+
+library(coda)
+library(lattice)
+lattice::xyplot(bayes.mod.fit.mcmc)
+```
+
+```{r}
+densityplot(bayes.mod.fit.mcmc)
+```
+
+```{r}
+densityplot(bayes.mod.fit.mcmc, layout=c(2,2), aspect="fill")
+```
+
+```{r}
+plot(bayes.mod.fit.mcmc)  # trace图和密度图在一起
+```
+
+```{r}
+autocorr.plot(bayes.mod.fit.mcmc) # 自相关图
+```
+
+```{r}
+library(mcmcplots)
+denplot(bayes.mod.fit.mcmc)
+```
+
+```{r}
+denplot(bayes.mod.fit.mcmc, parms = c("OR"))
+```
+
+```{r}
+traplot(bayes.mod.fit.mcmc, parms = c("OR"), style = "gray")
+```
+
+```{r}
+# produce html files with trace, density, and autocorrelation plots all on one page
+mcmcplot(bayes.mod.fit.mcmc) 
+```
+
+```{r}
+# produce a coefficient dot plot with credible intervals
+caterplot(bayes.mod.fit.mcmc)
+```
+
+```{r}
+caterplot(bayes.mod.fit.mcmc, parms = c("OR"), labels = c("OR"))
+```
+
+```{r}
+library(ggmcmc)
+# convert MCMC object into a ggs object
+bayes.mod.fit.gg <- ggs(bayes.mod.fit.mcmc)
+ggs_density(bayes.mod.fit.gg)
+```
+
+```{r}
+# use the ggmcmc command to create a PDF file containing a variety of diagnostic plots
+# ggmcmc(bayes.mod.fit.gg, file = "./ggmcmccommandproduce.pdf")
+```
+
+```{r}
+library(superdiag)
+superdiag(bayes.mod.fit.mcmc, burnin = 100)
+```
+
+# 使用频率学方法的pairwise meta-analysis分析相同数据，并进行比较
+```{r, fig.width=10}
+library(meta)
+data <- data.frame(event.e = c(11, 7, 3, 3, 3, 4), 
+                   n.e = c(553, 414, 144, 268, 252, 493),
+                   event.c = c(34, 40, 9, 19, 6, 34), 
+                   n.c = c(554, 423, 144, 268, 251, 462),
+                   study = c("Monto", "Hayden", "Kaiser", "Hayden", "Hayden", "Wwlliver"),
+                   year = c("1999", "2000", "2000", "1999", "1999", "2001"))
+metaresult <- metabin(event.e, n.e, event.c, n.c, data = data,
+                      sm = "OR",studlab = paste(study, year), comb.random = F)
+forest(metaresult)  
+# 基于频率学方法的meta分析结果显示，OR 95%CI为0.21[0.14; 0.30]
+```
+
