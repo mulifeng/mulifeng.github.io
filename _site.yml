@@ -21,7 +21,7 @@ navbar:
       menu:
         - text: "Heading 1"
         - text: "Page A"
-          href: page-a.html
+          href: https://github.com/mulifeng
         - text: "Page B"
           href: page-b.html
         - text: "---------"
