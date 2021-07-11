@@ -19,8 +19,8 @@ navbar:
     - text: "More"
       icon: fa-gear
       menu:
-        - text: "Heading 1"
-        - text: "Page A"
+        - text: "Link"
+        - text: "Github"
           href: https://github.com/mulifeng
         - text: "Page B"
           href: page-b.html
