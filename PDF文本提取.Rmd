@@ -1,0 +1,21 @@
+---
+title: "pdf文本提取"
+author: "mulifeng"
+date: "2021/7/16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(tabulizer)
+library(shiny)
+```
+
+```{r}
+
+```
+

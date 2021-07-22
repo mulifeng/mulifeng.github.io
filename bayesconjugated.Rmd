@@ -1,0 +1,40 @@
+---
+title: "bayes共轭先验"
+author: "mulifeng"
+date: "2021/7/16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 常见概率分布的pdf/pmf：binominal gamma beta possion normal
+(1) 二项分布
+
+(2)gamma分布
+$$f(x,α,β) = \frac{β^α}{Γ(α)}x^{α-1}e^{-βx}$$
+期望
+$$E(x)=\frac{α}{β}$$
+
+方差
+$$Var(x)=\frac{α}{β^2}$$
+
+(3)beta分布
+
+(4)possion分布
+
+(5)normal分布
+
+
+# 几种常见的贝叶斯共轭先验
+## gamma-possion model
+```{r}
+
+```
+
+
+## beta-binomial model
+```{r}
+
+```
