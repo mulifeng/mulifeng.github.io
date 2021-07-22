@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="mulifeng" />
 
 
-<title>projects.utf8</title>
+<title>贝叶斯参数生存模型</title>
 
 <script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -316,64 +317,58 @@ $(document).ready(function () {
 
 
 
+<h1 class="title toc-ignore">贝叶斯参数生存模型</h1>
+<h4 class="author">mulifeng</h4>
+<h4 class="date">2021/7/16</h4>
 
 </div>
 
 
-<p><br/><br/></p>
-<div id="data-visualization-in-r" class="section level2">
-<h2>Data Visualization in R</h2>
-<div id="jdkczbxx" class="section level3">
-<h3><a href="https://mulifeng.github.io/jdkczbxx.html">jdkczbxx</a></h3>
+<p>删失数据是我们观察到的一部分数据，贝叶斯统计学把它当作missing缺失数据来处理，贝叶斯的方法是想办法把缺失的数据填补回来 gibbs sampling是这么做的，有了y我们可以抽θ，有了θ我们可以抽<span class="math inline">\(Exp(θ)I(y_i &gt; 6)\)</span>,重复上面的两个步骤，我们就可以抽出一大推θ和missing， 所以贝叶斯统计不但可以把θ估计出来，还可以把missing估计出来 未知参数是θ，给θ一个共轭先验 为了简便，假设θ的先验是gamma分布: <span class="math display">\[θ ~ Ga(a, b)\]</span> 这样可以很快求出后验分布: <span class="math display">\[θ|y ~ Ga(a + n, b + n\bar{y})\]</span></p>
+<p>使用共轭gamma分布</p>
+<pre class="r"><code># 使用rexp函数创造服从指数分布的生存数据
+set.seed(20210716)
+dat &lt;- data.frame(id = 1:50, time.to.recovery = rexp(50, rate = .4))
+# 创造删失数据
+dat$miss &lt;- dat$time.to.recovery &gt; 6
+dat$y &lt;- ifelse(dat$miss, 6, dat$time.to.recovery)</code></pre>
+<pre class="r"><code>y &lt;- dat$y
+n &lt;- length(y)
+n.miss &lt;- sum(dat$miss)
+
+# hyperparameters
+a &lt;- 0.01
+b &lt;- 0.01
+
+n.reps &lt;- 100000
+theta &lt;- numeric(n.reps)
+
+for (i in 1:n.reps) {
+  theta[i] &lt;- rgamma(1, a+n, b+sum(y))
+  y[dat$miss] &lt;- 6 + rexp(n.miss, theta[i])
+  
+}</code></pre>
+<pre class="r"><code># mean survival time
+hist(1/theta, 100, freq = F, main = &quot;mean recovery time&quot;)</code></pre>
+<p><img src="bayesian-survival-analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code># mean survival time 95% Credible interval 可信区间
+quantile(1/theta, c(0.025, 0.975))</code></pre>
+<pre><code>##     2.5%    97.5% 
+## 2.100323 3.828482</code></pre>
+<div id="bayesian-estimation" class="section level2">
+<h2>bayesian estimation</h2>
+<pre class="r"><code>mean(theta)</code></pre>
+<pre><code>## [1] 0.3606895</code></pre>
 </div>
-<div id="jmjt" class="section level3">
-<h3><a href="https://mulifeng.github.io/jmjt.html">jmjt</a></h3>
+<div id="frequentist-estimation" class="section level2">
+<h2>frequentist estimation</h2>
+<pre class="r"><code>sum(!dat$miss) / sum(dat$time.to.recovery)</code></pre>
+<pre><code>## [1] 0.3187496</code></pre>
+<p>贝叶斯方法可以求出分布，missing， 上面的例子是右删失，区间删失同样可以求出来</p>
 </div>
-<div id="zcslxxcx" class="section level3">
-<h3><a href="https://mulifeng.github.io/zcslxxcx.html">zcslxxcx</a></h3>
-</div>
-<div id="patent2019" class="section level3">
-<h3><a href="https://mulifeng.github.io/patent2019.html">patent2019</a></h3>
-<p><br/><br/></p>
-</div>
-</div>
-<div id="statistical-plots" class="section level2">
-<h2>Statistical Plots</h2>
-<div id="law-of-large-numbers" class="section level3">
-<h3><a href="https://mulifeng.github.io/lawoflargenumbers.html">Law of large numbers</a></h3>
-</div>
-<div id="monty-hall-problem" class="section level3">
-<h3><a href="https://mulifeng.github.io/Monty-Hall-Problem.html">Monty Hall Problem</a></h3>
-</div>
-<div id="odds-and-logodds" class="section level3">
-<h3><a href="https://mulifeng.github.io/odds-and-log-odds-.html">odds and log(odds)</a></h3>
-</div>
-<div id="dbda-p79" class="section level3">
-<h3><a href="https://mulifeng.github.io/geom_line-vs-geom_path.html">DBDA-p79</a></h3>
-</div>
-<div id="mle" class="section level3">
-<h3><a href="https://mulifeng.github.io/MLE.html">MLE</a></h3>
-<p><br/><br/></p>
-</div>
-</div>
-<div id="pharmacoeconomics" class="section level2">
-<h2>Pharmacoeconomics</h2>
-<div id="question-about-flexsurv" class="section level3">
-<h3><a href="https://mulifeng.github.io/questionaboutflexsurv.html">Question about flexsurv</a></h3>
-<p><br/><br/></p>
-</div>
-</div>
-<div id="bayes" class="section level2">
-<h2>Bayes</h2>
-<div id="cooper2004" class="section level3">
-<h3><a href="https://mulifeng.github.io/cooper2004.html">cooper2004</a></h3>
-</div>
-<div id="ades2006" class="section level3">
-<h3><a href="https://mulifeng.github.io/ades2006.html">ades2006</a></h3>
-</div>
-<div id="bayesian-survival-analysis" class="section level3">
-<h3><a href="https://mulifeng.github.io/bayesian%20survival%20analysis.html">bayesian survival analysis</a></h3>
-</div>
+<div id="weibull-regression" class="section level1">
+<h1>weibull regression</h1>
+<p>简单起见，假设协变量<span class="math inline">\(x_i\)</span>只有一个，是一个binary treatment indicator</p>
 </div>
 
 
