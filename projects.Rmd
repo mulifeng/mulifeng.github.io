@@ -31,7 +31,7 @@ title: ''
 ## Bayes
 ### [cooper2004](https://mulifeng.github.io/cooper2004.html)
 ### [ades2006](https://mulifeng.github.io/ades2006.html)
-### [bayesian survival analysis](https://mulifeng.github.io/bayesian survival analysis.html)
+### [bayesian survival analysis](https://mulifeng.github.io/bayesian-survival-analysis.html)
 
 
 
