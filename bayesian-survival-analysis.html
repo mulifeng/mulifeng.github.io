@@ -324,7 +324,7 @@ $(document).ready(function () {
 </div>
 
 
-<p>删失数据是我们观察到的一部分数据，贝叶斯统计学把它当作missing缺失数据来处理，贝叶斯的方法是想办法把缺失的数据填补回来 gibbs sampling是这么做的，有了y我们可以抽θ，有了θ我们可以抽<span class="math inline">\(Exp(θ)I(y_i &gt; 6)\)</span>,重复上面的两个步骤，我们就可以抽出一大推θ和missing， 所以贝叶斯统计不但可以把θ估计出来，还可以把missing估计出来 未知参数是θ，给θ一个共轭先验 为了简便，假设θ的先验是gamma分布: <span class="math display">\[θ ~ Ga(a, b)\]</span> 这样可以很快求出后验分布: <span class="math display">\[θ|y ~ Ga(a + n, b + n\bar{y})\]</span></p>
+<p>删失数据是我们观察到的一部分数据，贝叶斯统计学把它当作missing(缺失数据)来处理，贝叶斯的方法是想办法把缺失的数据填补回来 gibbs sampling是这么做的，有了y我们可以抽θ，有了θ我们可以抽<span class="math inline">\(Exp(θ)I(y_i &gt; 6)\)</span>,重复上面的两个步骤，我们就可以抽出一大推θ和missing， 所以贝叶斯统计不但可以把θ估计出来，还可以把missing估计出来 未知参数是θ，给θ一个共轭先验 为了简便，假设θ的先验是gamma分布: <span class="math display">\[θ \sim Ga(a, b)\]</span> 根据共轭先验的概念，可以很快求出后验分布: <span class="math display">\[θ|y \sim Ga(a + n, b + n\bar{y})\]</span></p>
 <p>使用共轭gamma分布</p>
 <pre class="r"><code># 使用rexp函数创造服从指数分布的生存数据
 set.seed(20210716)
@@ -365,6 +365,104 @@ quantile(1/theta, c(0.025, 0.975))</code></pre>
 <pre class="r"><code>sum(!dat$miss) / sum(dat$time.to.recovery)</code></pre>
 <pre><code>## [1] 0.3187496</code></pre>
 <p>贝叶斯方法可以求出分布，missing， 上面的例子是右删失，区间删失同样可以求出来</p>
+<p>上述过程直接使用了共轭先验分布，同样也可以考虑使用JAGS等软件建模，使用MCMC方法抽样</p>
+<pre class="r"><code>library(R2jags)</code></pre>
+<pre><code>## Loading required package: rjags</code></pre>
+<pre><code>## Loading required package: coda</code></pre>
+<pre><code>## Linked to JAGS 4.3.0</code></pre>
+<pre><code>## Loaded modules: basemod,bugs</code></pre>
+<pre><code>## 
+## Attaching package: &#39;R2jags&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:coda&#39;:
+## 
+##     traceplot</code></pre>
+<pre class="r"><code>bayes_surv_model &lt;- function(){
+    for (i in 1:n) {
+      cens[i] ~ dinterval(t[i], tos[i]) # 1 if censored
+      t[i] ~ dgamma(shape, rate) # NA if censored
+      }
+    shape ~ dunif(0, 1000)
+    rate ~ dunif(0, 1000)
+  }</code></pre>
+<pre class="r"><code>t &lt;- ifelse(!dat$miss, dat$y, NA)
+tos &lt;- dat$time.to.recovery
+cens &lt;- 1 - !dat$miss
+n &lt;- nrow(dat)
+bayes_surv_data &lt;- list(&#39;t&#39;, &#39;tos&#39;, &#39;cens&#39;, &#39;n&#39;)
+bayes_surv_params &lt;- c(&#39;rate&#39;, &#39;shape&#39;)</code></pre>
+<pre class="r"><code>bayes.mod.surv &lt;- jags(data = bayes_surv_data, #inits = inits,
+                      parameters.to.save = bayes_surv_params, n.chains = 3, n.iter = 20000,
+                      n.burnin = 10000, model.file = bayes_surv_model)</code></pre>
+<pre><code>## module glm loaded</code></pre>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 93
+##    Unobserved stochastic nodes: 9
+##    Total graph size: 155
+## 
+## Initializing model</code></pre>
+</div>
+<div id="查看结果" class="section level1">
+<h1>查看结果</h1>
+<pre class="r"><code>bayes.mod.surv</code></pre>
+<pre><code>## Inference for Bugs model at &quot;C:/Users/ADMINI~1/AppData/Local/Temp/RtmpkDXpJV/model192c1be67fb5.txt&quot;, fit using jags,
+##  3 chains, each with 20000 iterations (first 10000 discarded), n.thin = 10
+##  n.sims = 3000 iterations saved
+##          mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
+## rate       0.313   0.079   0.176   0.258   0.307   0.363   0.485 1.001  3000
+## shape      0.959   0.177   0.656   0.834   0.952   1.070   1.342 1.001  2800
+## deviance 148.964   5.910 139.298 144.688 148.390 152.523 162.309 1.002  1400
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+## 
+## DIC info (using the rule, pD = var(deviance)/2)
+## pD = 17.4 and DIC = 166.4
+## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
+</div>
+<div id="检查模型收敛情况" class="section level1">
+<h1>检查模型收敛情况</h1>
+<pre class="r"><code>bayes.mod.surv.mcmc &lt;- as.mcmc(bayes.mod.surv)
+summary(bayes.mod.surv.mcmc)</code></pre>
+<pre><code>## 
+## Iterations = 10001:19991
+## Thinning interval = 10 
+## Number of chains = 3 
+## Sample size per chain = 1000 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##              Mean      SD Naive SE Time-series SE
+## deviance 148.9637 5.90975 0.107897       0.110189
+## rate       0.3128 0.07857 0.001434       0.001587
+## shape      0.9592 0.17688 0.003229       0.003585
+## 
+## 2. Quantiles for each variable:
+## 
+##              2.5%      25%      50%      75%    97.5%
+## deviance 139.2977 144.6878 148.3899 152.5232 162.3086
+## rate       0.1764   0.2583   0.3068   0.3626   0.4848
+## shape      0.6561   0.8340   0.9518   1.0700   1.3425</code></pre>
+<pre class="r"><code>plot(bayes.mod.surv.mcmc)</code></pre>
+<p><img src="bayesian-survival-analysis_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>coda::autocorr.plot(bayes.mod.surv.mcmc)</code></pre>
+<p><img src="bayesian-survival-analysis_files/figure-html/unnamed-chunk-11-2.png" width="672" /><img src="bayesian-survival-analysis_files/figure-html/unnamed-chunk-11-3.png" width="672" /><img src="bayesian-survival-analysis_files/figure-html/unnamed-chunk-11-4.png" width="672" /></p>
+</div>
+<div id="计算" class="section level1">
+<h1>计算</h1>
+<pre class="r"><code>hist(rgamma(10000, shape = 0.9598, rate = 0.3132))</code></pre>
+<p><img src="bayesian-survival-analysis_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>quantile(rgamma(10000, shape = 0.9598, rate = 0.3132), c(0.025, 0.975))</code></pre>
+<pre><code>##        2.5%       97.5% 
+##  0.07560137 11.55755800</code></pre>
+<pre class="r"><code>HDInterval::hdi(rgamma(100000, shape = 0.9598, rate = 0.3132))</code></pre>
+<pre><code>##        lower        upper 
+## 2.114023e-05 9.326452e+00 
+## attr(,&quot;credMass&quot;)
+## [1] 0.95</code></pre>
 </div>
 <div id="weibull-regression" class="section level1">
 <h1>weibull regression</h1>

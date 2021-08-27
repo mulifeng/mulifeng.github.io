@@ -8,14 +8,14 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-删失数据是我们观察到的一部分数据，贝叶斯统计学把它当作missing缺失数据来处理，贝叶斯的方法是想办法把缺失的数据填补回来
+删失数据是我们观察到的一部分数据，贝叶斯统计学把它当作missing(缺失数据)来处理，贝叶斯的方法是想办法把缺失的数据填补回来
 gibbs sampling是这么做的，有了y我们可以抽θ，有了θ我们可以抽$Exp(θ)I(y_i > 6)$,重复上面的两个步骤，我们就可以抽出一大推θ和missing，
 所以贝叶斯统计不但可以把θ估计出来，还可以把missing估计出来
 未知参数是θ，给θ一个共轭先验
 为了简便，假设θ的先验是gamma分布:
-$$θ ~ Ga(a, b)$$
-这样可以很快求出后验分布:
-$$θ|y ~ Ga(a + n, b + n\bar{y})$$
+$$θ \sim Ga(a, b)$$
+根据共轭先验的概念，可以很快求出后验分布:
+$$θ|y \sim Ga(a + n, b + n\bar{y})$$
 
 使用共轭gamma分布
 ```{r}
@@ -68,6 +68,72 @@ sum(!dat$miss) / sum(dat$time.to.recovery)
 ```
 贝叶斯方法可以求出分布，missing，
 上面的例子是右删失，区间删失同样可以求出来
+
+
+
+
+
+
+
+上述过程直接使用了共轭先验分布，同样也可以考虑使用JAGS等软件建模，使用MCMC方法抽样
+```{r}
+library(R2jags)
+
+bayes_surv_model <- function(){
+    for (i in 1:n) {
+      cens[i] ~ dinterval(t[i], tos[i]) # 1 if censored
+      t[i] ~ dgamma(shape, rate) # NA if censored
+      }
+    shape ~ dunif(0, 1000)
+    rate ~ dunif(0, 1000)
+  }
+```
+
+```{r}
+t <- ifelse(!dat$miss, dat$y, NA)
+tos <- dat$time.to.recovery
+cens <- 1 - !dat$miss
+n <- nrow(dat)
+bayes_surv_data <- list('t', 'tos', 'cens', 'n')
+bayes_surv_params <- c('rate', 'shape')
+
+```
+
+```{r}
+bayes.mod.surv <- jags(data = bayes_surv_data, #inits = inits,
+                      parameters.to.save = bayes_surv_params, n.chains = 3, n.iter = 20000,
+                      n.burnin = 10000, model.file = bayes_surv_model)
+```
+
+# 查看结果
+```{r}
+bayes.mod.surv
+```
+
+
+# 检查模型收敛情况
+```{r}
+bayes.mod.surv.mcmc <- as.mcmc(bayes.mod.surv)
+summary(bayes.mod.surv.mcmc)
+plot(bayes.mod.surv.mcmc)
+coda::autocorr.plot(bayes.mod.surv.mcmc)
+
+```
+
+# 计算
+```{r}
+hist(rgamma(10000, shape = 0.9598, rate = 0.3132))
+```
+
+```{r}
+
+quantile(rgamma(10000, shape = 0.9598, rate = 0.3132), c(0.025, 0.975))
+```
+```{r}
+HDInterval::hdi(rgamma(100000, shape = 0.9598, rate = 0.3132))
+```
+
+
 
 
 # weibull regression
