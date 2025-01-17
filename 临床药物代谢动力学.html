@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="母立峰" />
+
+<meta name="date" content="2023-01-21" />
+
+<title>临床药物代谢动力学</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Lifeng Mu</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="projects.html">
+    <span class="glyphicon glyphicon-tasks"></span>
+     
+    Projects
+  </a>
+</li>
+<li>
+  <a href="publications.html">
+    <span class="ion ion-ios-paper"></span>
+     
+    Publications
+  </a>
+</li>
+<li>
+  <a href="about.html">
+    <span class="glyphicon glyphicon-info-sign"></span>
+     
+    About Me
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    More
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Link</li>
+    <li>
+      <a href="https://github.com/mulifeng">Github</a>
+    </li>
+    <li>
+      <a href="page-b.html">Page B</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Heading 2</li>
+    <li>
+      <a href="page-c.html">Page C</a>
+    </li>
+    <li>
+      <a href="page-d.html">Page D</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://mulifeng.github.io">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">临床药物代谢动力学</h1>
+<h4 class="author">母立峰</h4>
+<h4 class="date">2023-01-21</h4>
+
+</div>
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: 程序包&#39;ggplot2&#39;是用R版本4.4.2 来建造的</code></pre>
+<pre><code>## Warning: 程序包&#39;tidyr&#39;是用R版本4.4.2 来建造的</code></pre>
+<pre><code>## Warning: 程序包&#39;readr&#39;是用R版本4.4.2 来建造的</code></pre>
+<pre><code>## Warning: 程序包&#39;dplyr&#39;是用R版本4.4.2 来建造的</code></pre>
+<pre><code>## Warning: 程序包&#39;stringr&#39;是用R版本4.4.2 来建造的</code></pre>
+<pre><code>## Warning: 程序包&#39;lubridate&#39;是用R版本4.4.2 来建造的</code></pre>
+<div id="第一章-绪论" class="section level1">
+<h1>第一章 绪论</h1>
+</div>
+<div id="第二章-药物转运及转运体" class="section level1">
+<h1>第二章 药物转运及转运体</h1>
+</div>
+<div id="第三章-药物代谢及代谢酶" class="section level1">
+<h1>第三章 药物代谢及代谢酶</h1>
+</div>
+<div id="第四章-药物分布及血浆蛋白结合" class="section level1">
+<h1>第四章 药物分布及血浆蛋白结合</h1>
+</div>
+<div id="第五章-药物代谢动力学模型" class="section level1">
+<h1>第五章 药物代谢动力学模型</h1>
+<div id="第一节-房室模型compartmental-model" class="section level2">
+<h2>第一节 房室模型(compartmental model)</h2>
+<ul>
+<li>药物代谢动力学是研究药物在体内吸收、分布、代谢和
+排泄等体内过程规律的一门学科。<br />
+</li>
+<li>通过在实验的基础上建立数学模型，求算相应的药物代谢动力学参数，从而实施对药物在体内过程进行预测。</li>
+</ul>
+<div id="一一室模型单室模型one-compartmental-model"
+class="section level3">
+<h3>一、一室模型/单室模型(one compartmental model)</h3>
+<ul>
+<li>为最简单的药物代谢动力学模型。</li>
+</ul>
+<div id="一静脉注射给药的药物代谢动力学" class="section level4">
+<h4>(一)静脉注射给药的药物代谢动力学</h4>
+<ul>
+<li>不存在吸收过程，直接进入血液循环 <span
+class="math display">\[\frac{dX}{dt} = -kX \]</span></li>
+</ul>
+<p><span class="math display">\[X=X_{0}e^{-kt}\]</span> 其中，<span
+class="math inline">\(X_0\)</span>为静脉给药剂量。 血药浓度-时间曲线：
+<span class="math display">\[C=C_0e^{-kt}\]</span> 其中，<span
+class="math inline">\(C_0\)</span>为初始血药浓度(<span
+class="math inline">\(C_0=X_0/V\)</span>)。<br />
+将上式取对数得： <span class="math display">\[lnC=lnC_0-kt\]</span>
+即，利用lnC对时间t作图得直线，斜率为k，截距为<span
+class="math inline">\(lnC_0\)</span>。</p>
+<ul>
+<li>定义血药浓度下降一半的时间为消除半衰期(<span
+class="math inline">\(t_{1/2}\)</span>)，易得<span
+class="math inline">\(C=0.5C_0=C_0e^{-kt_{1/2}}\)</span>，取对数，改写得到<span
+class="math inline">\(t_{1/2}\)</span>计算公式：</li>
+</ul>
+<p><span
+class="math display">\[t_{1/2}=\frac{ln2}{k}=\frac{0.693}{k}\]</span></p>
+<p>对血药浓度-时间曲线积分，得到血药浓度-时间曲线下面积(area under
+curve, AUC)： <span
+class="math display">\[AUC=\int_0^∞C_0e^{-kt}dt=\frac{X_0}{Vk}\]</span></p>
+<p>定义单位时间内有多少体积血浆中药物被清除为血浆药物清除率(clearence,
+CL)： <span class="math display">\[CL=kV\]</span> 或： <span
+class="math display">\[CL=\frac{X_0}{AUC}\]</span>
+在实际工作中，常用上式估算药物血浆清除率，单位通常用L/h，L/min或L/(h·kg)，L/(min·kg)表示。</p>
+<ul>
+<li>按一室模型处置的药物，通常血浆中药物浓度快速与机体组织中药物浓度达到动态平衡，此时可以用血浆中
+药物浓度C反映体内药量变化。</li>
+</ul>
+</div>
+<div id="二静脉滴注的药物代谢动力学" class="section level4">
+<h4>(二)静脉滴注的药物代谢动力学</h4>
+<p>假定静脉滴注给药速率为<span
+class="math inline">\(k_0\)</span>，得到体内药量的速率方程： <span
+class="math display">\[\frac{dX}{dt}=k_0-kX\]</span>
+解上述方程，得到静脉滴注过程中的血药浓度-时间曲线方程： <span
+class="math display">\[C=\frac{k_0}{kV}(1-e^{-kt})\]</span>
+即随给药时间延长，血药浓度逐渐增加，当时间t趋于无穷大时，血药浓度趋定值，即血药浓度不再随给药而增加，该浓度称之为稳态浓度(steady-state
+concentration, <span class="math inline">\(C_{ss}\)</span>)，即<span
+class="math inline">\(C_{ss}=\frac{k_0}{kV}\)</span></p>
+<p>验证上述结论：</p>
+<pre class="r"><code>ggplot()+
+  geom_function(fun=function(t) 2/1.5/2*(1-exp(-1.5*t)), col=&quot;red&quot;) +
+  xlim(0,10) +
+  theme_bw()</code></pre>
+<p><img src="%E4%B8%B4%E5%BA%8A%E8%8D%AF%E7%89%A9%E4%BB%A3%E8%B0%A2%E5%8A%A8%E5%8A%9B%E5%AD%A6_files/figure-html/unnamed-chunk-2-1.png" width="1200" /></p>
+<pre class="r"><code># 该曲线稳态浓度应为：2/1.5/2 = 0.6666</code></pre>
+<p>由验证结果可知，随给药时间延长，血药浓度逐渐增加，当时间t趋于无穷大时，血药浓度趋于定值，即血药浓度不再随给药而增加。<br />
+公式可改写为： <span class="math display">\[C=C_{ss}(1-e^{-rt})\]</span>
+定义任意时间血药浓度与稳态浓度比为<span
+class="math inline">\(f_{ss}\)</span>，即：<span
+class="math inline">\(f_{ss}=C/C_{ss}\)</span>，从而可以计算血药浓度达到稳态浓度的某一分数所需要的时间长短。假定该时间相当于n个<span
+class="math inline">\(t_{1/2}\)</span>，由上式得： <span
+class="math display">\[f_{ss}=\frac{C}{C_{ss}}=1-e^{-kt}\]</span> <span
+class="math display">\[e^{-kt}=1-f_{ss}\]</span> <span
+class="math display">\[lne^{-kt}=ln(1-f_{ss})\]</span> <span
+class="math display">\[-kt=ln(1-f_{ss})\]</span> <span
+class="math display">\[-k*n*t_{1/2}=ln(1-f_{ss})\]</span> <span
+class="math display">\[-k*n*\frac{0.693}{k}=ln(1-f_{ss})\]</span> <span
+class="math display">\[-n*0.693=ln(1-f_{ss})\]</span> <span
+class="math display">\[n=-\frac{ln(1-f_{ss})}{0.693}\]</span>
+可见，静脉滴注给药存在下列特征： 1.
+按恒速滴注给药，血药浓度随时间递增，当时间趋于无穷大时，血药浓度达稳态。对于同一药物，稳态浓度的大小取决于滴注速率。<br />
+2.
+达到稳态某一分数所需要的时间长短取决于半衰期，而与滴注速率无关。当时间相当于<span
+class="math inline">\(3.32t_{1/2}\)</span>时，血药浓度相当于稳态浓度的90%，当时间相当于<span
+class="math inline">\(6.64t_{1/2}\)</span>时，血药浓度相当于稳态浓度的99%。<br />
+3. 已知期望血药浓度，可以确定静脉滴注速率<span
+class="math inline">\(k_0\)</span>： <span
+class="math display">\[k_0=C_{ss}kV\]</span> 验证上述结论：</p>
+<pre class="r"><code>ggplot()+
+  geom_function(fun=function(t) 2/1.5/2*(1-exp(-1.5*t)), col=&quot;red&quot;, xlim=c(0,5)) +
+  geom_function(fun=function(t) 2/1.5/2*(1-exp(-1.5*t))*exp(-1.5*(t-5)),xlim=c(5,10))+
+  theme_bw()</code></pre>
+<p><img src="%E4%B8%B4%E5%BA%8A%E8%8D%AF%E7%89%A9%E4%BB%A3%E8%B0%A2%E5%8A%A8%E5%8A%9B%E5%AD%A6_files/figure-html/unnamed-chunk-3-1.png" width="1200" /></p>
+</div>
+<div id="三血管外途径给药的药物代谢动力学" class="section level4">
+<h4>(三)血管外途径给药的药物代谢动力学</h4>
+<p>血管外途径给药存在吸收过程，得到相应的微分方程组： <span
+class="math display">\[\begin{cases}\frac{dX_a}{dt}=-k_aX_a\\\frac{dX}{dt}=k_aX_a-kX\end{cases}\]</span>
+解上述微分方程组，得到给药后的血药浓度-时间曲线： <span
+class="math display">\[C=\frac{FX_0k_a}{V(k-k_a)}(e^{-kt}-e^{-k_at})\]</span>
+其中，F为生物利用度(bioavailability)。<br />
+其<span class="math inline">\(T_{max}\)</span>和<span
+class="math inline">\(C_{max}\)</span>分别为： <span
+class="math display">\[T_{max}=\frac{ln(k_a/k)}{k_a-k}\]</span> <span
+class="math display">\[C_{max}=\frac{FX_0k_a}{V(k_a-k)}(e^{-kT_{max}}-e^{-k_at})\]</span>
+在实际工作中，<span class="math inline">\(T_{max}\)</span>和<span
+class="math inline">\(C_{max}\)</span>直接从实测值中读取。<br />
+对于口服给药，从给药开始到进入吸收部位往往需要一定时间，即存在一滞后时间（lag
+time，<span class="math inline">\(t_0\)</span>），上式可改写为： <span
+class="math display">\[C=\frac{FX_0k_a}{V(k_a-k)}(e^{-k(t-t_a)}-e^{-k_a(t-t_0)})\]</span></p>
+</div>
+</div>
+<div id="二二室模型" class="section level3">
+<h3>二、二室模型</h3>
+<p>药物在所有组织中浓度快速达到动态平衡是困难的，即药物在不同组织中的分布速率存在差异。
+一些血流丰富的组织如肝、肾等药物的分布迅速，能够快速与血液达到动态平衡，而另一些血流贫乏
+的组织如脂肪、皮肤和静止状态下肌肉等药物分布慢，与血液达到动态平衡。这样根据药物在组织中
+的转运速度不同，分为中央室和外周室，即二室模型(two compartmental
+model)</p>
+<div id="一静脉注射给药的药物代谢动力学-1" class="section level4">
+<h4>(一)静脉注射给药的药物代谢动力学</h4>
+<p>按二室处置的药物，静脉给予<span
+class="math inline">\(X_0\)</span>剂量的药物后，体内药量的变化速率方程：
+<span
+class="math display">\[\begin{cases}\frac{dX_c}{dt}=k_{21}X_p-(k_{12}+k_{10})X_c\\\frac{dX_p}{dt}=k_{12}X_c-k_{21}X_p\end{cases}\]</span>
+解上述微分方程组，得到血浆中药物浓度-时间曲线： <span
+class="math display">\[C=Ae^{-αt}+Be^{-βt}\]</span> 其中 <span
+class="math display">\[αβ=k_{10}k_{21}\]</span> <span
+class="math display">\[α+β=k_{21}+k_{12}+k_{10}\]</span> <span
+class="math display">\[A=\frac{X_0(α-k_{21})}{V_c(α-β)}\]</span> <span
+class="math display">\[B=\frac{X_0(k_{21}-β)}{V_c(α-β)}\]</span>
+A和B分别为指数项系数，α和β分别为<strong>分布速率常数</strong>和<strong>消除速率常数</strong>
+<span class="math inline">\(V_c\)</span>为中央室表观分布容积： <span
+class="math display">\[V_c=\frac{X_0}{A+B}\]</span>
+可见，对于按二房室处置的药物，静脉给药后，血药浓度-时间曲线符合二项指数特征，血药浓度首先快速下降，称之为药物分布相，在此相药物以分布为主。然后血药浓度变化缓慢，主要反应药物的消除，称之为消除相。
+定义药物的分布半衰期(<span
+class="math inline">\(t_{1/2α}\)</span>)和消除半衰期(<span
+class="math inline">\(t_{1/2β}\)</span>)分别为： <span
+class="math display">\[t_{1/2α}=\frac{0.693}{α}\]</span></p>
+<p><span class="math display">\[t_{1/2β}=\frac{0.693}{β}\]</span></p>
+</div>
+<div id="二血管外途径给药的药物代谢动力学" class="section level4">
+<h4>(二)血管外途径给药的药物代谢动力学</h4>
+<p>对于血管外途径给药，存在吸收过程，得到相应的微分方程组： <span
+class="math display">\[\begin{cases}\frac{dX_a}{dt}=-k_aX_a\\\frac{dX_c}{dt}=k_aX_a+k_{21}X_p-(k_{12}+k_{10})X_c\\\frac{dX_p}{dt}=k_{12}X_c-k_{21}X_p\end{cases}\]</span>
+利用laplace变换解上述方程组，得到血管外给药后血药浓度-时间曲线： <span
+class="math display">\[C=Le^{-k_at}+Me^{-αt}+Ne^{-βt}\]</span> 其中：
+<span
+class="math display">\[L=\frac{k_aFX_0(k_{21}-k_a)}{V_c(α-k_a)(β-k_a)}\]</span>
+<span
+class="math display">\[M=\frac{k_aFX_0(k_{21}-α)}{V_c(k_a-α)(β-α)}\]</span>
+<span
+class="math display">\[N=\frac{k_aFX_0(k_{21}-β)}{V_c(α-β)(k_a-β)}\]</span>
+#### 三、房室模型的确定方法
+在药物代谢动力学参数估算过程中，选择模型将直接影响到计算结果，因此模型的选择显得尤为重要。首先确定所研究的药物在体内处置符合哪种模型特征。常用有下列几种方法：
+1. 血药浓度-时间散点图判断法<br />
+2. 残差平方和(<span class="math inline">\(R_e\)</span>)<br />
+3. 拟合度<span class="math inline">\(r^2\)</span> 4. F检验判断法 5.
+AIC值法<br />
+目前比较公认的判别法是AIC值法，该法被广泛地用于模型判别和选择。AIC值越小，则可认为该模型拟合越好。</p>
+</div>
+</div>
+</div>
+<div id="第二节-统计矩理论为基础的非房室模型" class="section level2">
+<h2>第二节 统计矩理论为基础的非房室模型</h2>
+<p>非房室模型()的统计矩方法是以概率论为和数理统计学中的统计矩(statistical
+moment)方法为理论基础，对数据进行解析的一种方法。其特征参数包括零阶矩、一阶矩和二阶矩，体现平均值、标准差等。在药物代谢动力学研究中，零阶矩定义为AUC，是一个反映量的参数；一阶矩为平均驻留时间(mean
+residence
+time，MRT)，反映药物分子在体内的平均停留时间，是一反映速度的参数；二阶矩为方差(variance
+of mean residence
+time，VRT)，反映药物分子在体内平均停留时间的差异大小。</p>
+<div id="各阶统计矩定义及计算" class="section level3">
+<h3>各阶统计矩定义及计算</h3>
+<div id="一血药浓度-时间曲线下面积" class="section level4">
+<h4>(一)血药浓度-时间曲线下面积</h4>
+<p>给药后血药浓度的经时过程可以看成随机分布曲线，无论何种给药途径或何种房室模型，其零阶矩AUC定义如下：
+<span class="math display">\[AUC=\int_0^∞c(t)dt\]</span>
+通常采用线性梯形面积法求算AUC。</p>
+</div>
+<div id="二平均驻留时间mrt" class="section level4">
+<h4>(二)平均驻留时间(MRT)</h4>
+<p>MRT和VRT实际上分别称为一阶原点矩和二阶中心矩。其计算公式分别为：
+<span
+class="math display">\[MRT=\frac{\int_0^∞tC(t)dt}{AUC}=\frac{AUMC}{AUC}\]</span>
+<span
+class="math display">\[MRT=\frac{\int_0^∞(t-MRT)^2C(t)dt/AUC}{AUC}=\int_0^∞t^2C(t)dt-MRT^2\]</span>
+同理，AUMC采用线性梯形面积加校正面积。 <span
+class="math display">\[AUMC=\sum0.5×(t_iC_i+t_iC_{i-1})(t_i-t_{i-1})+C_n(\frac{1}{λ^2}+\frac{t_n}{λ})\]</span></p>
+</div>
+<div id="三mrt与半衰期关系" class="section level4">
+<h4>(三)MRT与半衰期关系</h4>
+<p>MRT的大小除了与药物本身之外，还取决于给药途径。
+单室模型处置的药物，静脉给药后，其MRT为： <span
+class="math display">\[MRT_{iv}=\frac{1}{k}=\frac{t_{1/2}}{0.693}\]</span>
+单室处置药物，血管外给药后，其MRT为： <span
+class="math display">\[MRT_{exe.}=\frac{1}{k}+\frac{1}{k_a}=MRT_{iv}+MAT\]</span>
+其中，MAT称为平均吸收时间 短时间静脉滴注给药后，其MRT计算如下： <span
+class="math display">\[MRT=MRT_{iv}+\frac{T}{2}\]</span>
+式中T为滴注时间。
+对于多室处置药物，MRT为模型中分布以及消除速度常数的函数。可用下式近似表示MRT与消除速率常数<span
+class="math inline">\(\bar{k}\)</span>的关系： <span
+class="math display">\[MRT_{iv}=\frac{1}{k}\]</span>
+式中，k式一个一级速度常数，它等于清除率与稳态表观分布容积<span
+class="math inline">\(V_{ss}\)</span>的比值： <span
+class="math display">\[\bar{k}=\frac{CL}{V_{ss}}\]</span></p>
+</div>
+<div id="四稳态表观分布容积" class="section level4">
+<h4>(四)稳态表观分布容积</h4>
+<p>稳态表观分布容积(<span
+class="math inline">\(V_{ss}\)</span>)是重要的药物代谢动力学参数之一。根据统计矩原理，<span
+class="math inline">\(V_{ss}\)</span>可在药物单剂量静脉注射后，通过清除率与平均驻留时间之积进行计算，即：
+<span
+class="math display">\[V_{ss}=CL×MRT=\frac{X_{iv}}{AUC}×MRT\]</span>
+上式仅适用于静脉注射给药，经修改后则可推广到其他形式的给药方式，若药物采用短时间恒速静脉注射，则：
+<span
+class="math display">\[V_{ss}=\frac{k_0×T×MRT}{AUC}-\frac{k_0×T^2}{2×AUC}\]</span>
+需要注意的是，对于静脉注射而言，在药物代谢动力学参数中有3种<span
+class="math inline">\(V_d\)</span>，<span
+class="math inline">\(V_{ss}\)</span>和<span
+class="math inline">\(V_{area}\)</span>表观分布容积值，分别用不同公式估算。</p>
+<p><span class="math display">\[V_{area}=\frac{X_0}{AUC×λ_0}\]</span>
+#### (五)非房室模型和房室模型的分析方法优缺点比较
+非房室模型最基本的优点是限制性条件较少，只要求血药浓度-时间曲线的末端符合指数消除，可以解决不饿能用房室模型拟合的问题。如缓控释制剂，尽管房室特征不明确，但用非房室模型方法仍可以估算AUC、MRT、CL和T1/2等，因此非房室模型方法在药物代谢动力学研究中被广泛使用。在某些方面，非房室模型方法已经取代房室模型分析，尤其是在药物制剂的生物利用度和生物等效性评价。但是从另一个角度看，这也是非房室模型分析的缺点，它不能提供血药浓度-时间曲线的细节，只能提供总体参数。</p>
+</div>
+</div>
+</div>
+<div id="第三节-生理药物代谢动力学模型" class="section level2">
+<h2>第三节 生理药物代谢动力学模型</h2>
+</div>
+<div id="第四节-药物代谢动力学-药效动力学结合模型"
+class="section level2">
+<h2>第四节 药物代谢动力学-药效动力学结合模型</h2>
+</div>
+</div>
+<div id="第六章-非线性药物代谢动力学" class="section level1">
+<h1>第六章 非线性药物代谢动力学</h1>
+<p>药物代谢动力学按线性关系的不同分为线性和非线性两大类。<br />
+目前在临床上使用的正常剂量范围内，绝大多数药物在体内的动力学过程都符合线性动力学。<br />
+但也有少数药物如苯妥英、双香豆素、阿司匹林、乙醇的动力学行为遵循零级动力学或米-曼动力学，即非线性动力学。该类药物在临床应用时要特别审慎，剂量的少许增加会引起血药浓度的急剧增加，从而导致药物中毒。</p>
+<div id="第一节-线性和非线性" class="section level2">
+<h2>第一节 线性和非线性</h2>
+<p>线性和非线性为一类数学概念，用于描述系统对一种输入或刺激产生的反应类型。<br />
+在线性系统种，一种变量x的改变引起另一种变量y成比例的改变。x、y之间的这种关系能够通过一组x值对应y值作图所形成的直线加以表征。<br />
+如果集中刺激在线性系统中叠加，则反应将是每个刺激或输入单独作用产生的变化之和。<br />
+当药物消除和吸收等过程遵循一级动力学时，该动力学模拟谓之线性动力学，因为此时药物消除或吸收速率与药物浓度成比例，正如其微分方程<span
+class="math inline">\(dC/dt=-kC\)</span>。通过简单扩散吸收、分布或消除的药物动力学行为属于一级动力学，即线性动力学行为。<br />
+在零级动力学或米-曼动力学中，药物消除或吸收速率与药物浓度不成比例，呈非线性关系，正如其微分方程<span
+class="math inline">\(-dC/dt=K\)</span>(零级动力学)、<span
+class="math inline">\(-dC/dt=V_mC/(k_m+C)\)</span>(米-曼动力学)，两种变量间不成直线关系。<br />
+通过主动转运的药物、药物的代谢和药物血浆蛋白结合等动力学行为属于非线性动力学。</p>
+</div>
+<div id="第二节-非线性动力学特点" class="section level2">
+<h2>第二节 非线性动力学特点</h2>
+<p>与线性动力学相比，呈现非线性动力学特征的药物其体内过程具有以下特点：
+1. 药物的消除不遵循一级动力学，而是非线性的。 2.
+血药浓度和AUC与剂量不成正比。 3.
+药物消除半衰期、清除率随剂量改变而改变。 4.
+其他药物可能竞争酶或载体系统，其动力学过程可能受合并用药的影响。 5.
+药物代谢物的组成和(或)比例可能由于剂量变化而变化。</p>
+</div>
+<div id="第三节-引起非线性动力学的原因" class="section level2">
+<h2>第三节 引起非线性动力学的原因</h2>
+<p>在多数情况下，体内过程涉及容量限制过程的药物均表现为非线性药物动力学的特性。
+药物代谢以及药物转运过程(如肠吸收、胆汁排泄、肾小管主动分泌及血浆蛋白结合)中涉及的酶或载体系统均呈现一定的容量限制性。当给药剂量及其所产生的体内浓度超过一定的限度时，酶的催化能力和载体转运能力即达到饱和，故其动力学呈现明显的剂量(浓度)依赖性。基于上述原因，非线性药物动力学又称为容量限制动力学、饱和动力学或剂量依赖动力学等。由于其动力学过程符合米-曼动力学方程，故也称为米-曼动力学。<br />
+但是除了容量限制性系统外，体内的酶诱导和酶抑制作用等特殊过程也会使得药物呈现非线性药物动力学，不过其过程并不符合米-曼动力学方程。<br />
+非线性药物代谢动力学主要存在于： 1.
+与药物吸收、排泄有关的可饱和载体转运过程。 2.
+与药物代谢有关的可饱和酶代谢过程。 3.
+与药物分布有关的可饱和血浆/组织蛋白结合过程。 4.
+药物及其代谢产物酶抑制及酶诱导等特殊过程。
+其中，第1、2种过程符合米-曼动力学，故称为米-曼非线性动力学。第3、4种过程不符合米-曼动力学。</p>
+</div>
+<div id="第四节-米-曼非线性药物代谢动力学的判别" class="section level2">
+<h2>第四节 米-曼非线性药物代谢动力学的判别</h2>
+</div>
+<div id="第五节-米-曼非线性药物代谢动力学的速率过程及参数计算"
+class="section level2">
+<h2>第五节 米-曼非线性药物代谢动力学的速率过程及参数计算</h2>
+<div id="一米-曼非线性药物代谢动力学的速率过程" class="section level3">
+<h3>一、米-曼非线性药物代谢动力学的速率过程</h3>
+<div id="一米-曼方程michaelis-menten" class="section level4">
+<h4>(一)米-曼方程(Michaelis-Menten)</h4>
+<p>药物生物转化、肾小管分泌、胆汁排泄通常需要酶或载体系统，这些系统呈现容量限制性的药物消除过程。这些过程常用Michaelis-Menten方程加以描述，故称为米-曼非线性药物代谢动力学：
+<span class="math display">\[-\frac{dC}{dt}=\frac{V_mC}{K_m+C}\]</span>
+上式种，<span
+class="math inline">\(-\frac{dC}{dt}\)</span>为药物在t时间的下降速率，表示消除速率的大小；<span
+class="math inline">\(V_m\)</span>为药物在体内消除过程中理论上的最大消除速率；<span
+class="math inline">\(K_m\)</span>为Michaelis常数，简称米-曼常数，是指药物在体内的消除速度为<span
+class="math inline">\(V_m\)</span>的一半所对应的血药浓度，即当<span
+class="math inline">\(-\frac{dC}{dt}=\frac{V_m}{2}\)</span>时，<span
+class="math inline">\(K_m=C\)</span>。</p>
+</div>
+<div id="二具米-曼非线性过程的药物动力学特征" class="section level4">
+<h4>(二)具米-曼非线性过程的药物动力学特征</h4>
+<p>Michealis-Menten方程有两种极端的情况，即： 当C&lt;&lt;K_m时： <span
+class="math display">\[-\frac{dC}{dt}=\frac{V_m}{K_m}C\]</span>
+上式表明血药浓度消除速度与血药浓度一次方成正比，这与一级动力学线性特征相一致。其消除速度常数(k)事实上等于<span
+class="math inline">\(V_m/K_m\)</span>。实际中这种情况很常见，当药物的血药浓度远低于<span
+class="math inline">\(K_m\)</span>值，曲线的前端近似直线，即<span
+class="math inline">\(-dC/dt\)</span>与C之间为线性关系，其斜率为<span
+class="math inline">\(V_m/K_m\)</span>。求解可得： <span
+class="math display">\[logC=logC_0-\frac{V_m}{2.303K_m}t\]</span>
+此时消除速率常数为<span class="math inline">\(V_m/K_m\)</span>，故：
+<span class="math display">\[t_{1/2}=\frac{0.693K_m}{V_m}\]</span>
+由上可知，低剂量(浓度)时，消除速率与浓度成正比，半衰期与浓度(剂量)无关，故此时血药浓度时程服从一级动力学。</p>
+<p>当C&gt;&gt;K_m时，</p>
+</div>
+</div>
+</div>
+</div>
+<div id="第七章-治疗药物监测" class="section level1">
+<h1>第七章 治疗药物监测</h1>
+</div>
+<div id="第八章-时间药物代谢动力学" class="section level1">
+<h1>第八章 时间药物代谢动力学</h1>
+</div>
+<div id="第九章-给药方案设计" class="section level1">
+<h1>第九章 给药方案设计</h1>
+</div>
+<div id="第十章-特殊人群药物代谢动力学" class="section level1">
+<h1>第十章 特殊人群药物代谢动力学</h1>
+</div>
+<div id="第十一章-药物代谢动力学方面的药物相互作用"
+class="section level1">
+<h1>第十一章 药物代谢动力学方面的药物相互作用</h1>
+</div>
+<div id="第十二章-遗传药理学与临床药物代谢动力学"
+class="section level1">
+<h1>第十二章 遗传药理学与临床药物代谢动力学</h1>
+</div>
+<div id="第十三章-疾病状态下的临床药物代谢动力学"
+class="section level1">
+<h1>第十三章 疾病状态下的临床药物代谢动力学</h1>
+</div>
+<div id="第十四章-群体药物代谢动力学" class="section level1">
+<h1>第十四章 群体药物代谢动力学</h1>
+</div>
+<div id="第十五章-蛋白多肽类药物的药物代谢动力学"
+class="section level1">
+<h1>第十五章 蛋白多肽类药物的药物代谢动力学</h1>
+</div>
+<div id="第十六章-手性药物的药物代谢动力学" class="section level1">
+<h1>第十六章 手性药物的药物代谢动力学</h1>
+</div>
+<div id="第十七章-天然药物的药物代谢动力学" class="section level1">
+<h1>第十七章 天然药物的药物代谢动力学</h1>
+</div>
+<div id="第十八章-新药的临床药物代谢动力学评价" class="section level1">
+<h1>第十八章 新药的临床药物代谢动力学评价</h1>
+</div>
+<div id="第十九章-中枢神经系统药物的药物代谢动力学"
+class="section level1">
+<h1>第十九章 中枢神经系统药物的药物代谢动力学</h1>
+</div>
+<div id="第二十章-心血管系统药物的药物代谢动力学"
+class="section level1">
+<h1>第二十章 心血管系统药物的药物代谢动力学</h1>
+</div>
+<div id="第二十一章-抗菌药物的药物代谢动力学" class="section level1">
+<h1>第二十一章 抗菌药物的药物代谢动力学</h1>
+</div>
+<div id="第二十二章-抗凝血药及抗血栓药的药物代谢动力学"
+class="section level1">
+<h1>第二十二章 抗凝血药及抗血栓药的药物代谢动力学</h1>
+</div>
+<div id="第二十三章-平喘药物的药物代谢动力学" class="section level1">
+<h1>第二十三章 平喘药物的药物代谢动力学</h1>
+</div>
+<div id="第二十四章-抗恶性肿瘤药物的药物代谢动力学"
+class="section level1">
+<h1>第二十四章 抗恶性肿瘤药物的药物代谢动力学</h1>
+</div>
+<div id="第二十五章-影响免疫功能药物的药物代谢动力学"
+class="section level1">
+<h1>第二十五章 影响免疫功能药物的药物代谢动力学</h1>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

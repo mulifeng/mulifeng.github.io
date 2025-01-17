@@ -14,8 +14,8 @@
 
 <title>ades2006</title>
 
-<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -33,8 +33,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 
 <style type="text/css">
@@ -56,6 +56,7 @@ if (window.hljs) {
   }
 }
 </script>
+
 
 
 
@@ -85,6 +86,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -142,11 +146,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -175,8 +183,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -184,16 +192,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -237,7 +238,7 @@ $(document).ready(function () {
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -248,7 +249,7 @@ $(document).ready(function () {
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
     Home
   </a>
@@ -275,17 +276,17 @@ $(document).ready(function () {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-gear"></span>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-gear"></span>
      
     More
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Heading 1</li>
+    <li class="dropdown-header">Link</li>
     <li>
-      <a href="page-a.html">Page A</a>
+      <a href="https://github.com/mulifeng">Github</a>
     </li>
     <li>
       <a href="page-b.html">Page B</a>
@@ -304,7 +305,7 @@ $(document).ready(function () {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://mulifeng.github.io">
-    <span class="fas fa-question fa-lg"></span>
+    <span class="fa fa-question fa-lg"></span>
      
   </a>
 </li>
@@ -325,22 +326,34 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
-<pre><code>## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.1.0     v dplyr   1.0.5
-## v tidyr   1.1.3     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.1</code></pre>
-<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## Warning: package &#39;lubridate&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ─── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ───────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <pre class="r"><code>library(R2jags)</code></pre>
+<pre><code>## Warning: package &#39;R2jags&#39; was built under R version 4.4.2</code></pre>
 <pre><code>## Loading required package: rjags</code></pre>
+<pre><code>## Warning: package &#39;rjags&#39; was built under R version 4.4.2</code></pre>
 <pre><code>## Loading required package: coda</code></pre>
-<pre><code>## Linked to JAGS 4.3.0</code></pre>
-<pre><code>## Loaded modules: basemod,bugs</code></pre>
-<pre><code>## 
-## Attaching package: &#39;R2jags&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:coda&#39;:
+<pre><code>## Warning: package &#39;coda&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## Linked to JAGS 4.3.1
+## Loaded modules: basemod,bugs
+## 
+## Attaching package: &#39;R2jags&#39;
+## 
+## The following object is masked from &#39;package:coda&#39;:
 ## 
 ##     traceplot</code></pre>
 <pre class="r"><code>model_bnma_fixed &lt;- function(){
@@ -454,8 +467,8 @@ NT &lt;- 4  # 共涉及4种干预</code></pre>
 <pre class="r"><code>jags_dat &lt;- list(&#39;s&#39;, &#39;t&#39;, &#39;r&#39;, &#39;n&#39;, &#39;b&#39;, &#39;NS&#39;, &#39;N&#39;, &#39;NT&#39;)
 jags_params &lt;- c(&quot;d&quot;)</code></pre>
 <pre class="r"><code>bayes.mod.fixed &lt;- jags(data = jags_dat, #inits = inits,
-                      parameters.to.save = jags_params, n.chains = 3, n.iter = 200000,
-                      n.burnin = 100000, model.file = model_bnma_fixed)</code></pre>
+                      parameters.to.save = jags_params, n.chains = 3, n.iter = 20000,
+                      n.burnin = 10000, model.file = model_bnma_fixed)</code></pre>
 <pre><code>## module glm loaded</code></pre>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
@@ -467,8 +480,8 @@ jags_params &lt;- c(&quot;d&quot;)</code></pre>
 ## 
 ## Initializing model</code></pre>
 <pre class="r"><code>bayes.mod.random &lt;- jags(data = jags_dat, #inits = inits,
-                      parameters.to.save = jags_params, n.chains = 3, n.iter = 200000,
-                      n.burnin = 100000, model.file = model_bnma_random)</code></pre>
+                      parameters.to.save = jags_params, n.chains = 3, n.iter = 20000,
+                      n.burnin = 10000, model.file = model_bnma_random)</code></pre>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -481,41 +494,41 @@ jags_params &lt;- c(&quot;d&quot;)</code></pre>
 <div id="查看固定效应模型结果" class="section level1">
 <h1>查看固定效应模型结果</h1>
 <pre class="r"><code>bayes.mod.fixed</code></pre>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/ADMINI~1/AppData/Local/Temp/RtmpyIXLtp/model71007dfc459.txt&quot;, fit using jags,
-##  3 chains, each with 2e+05 iterations (first 1e+05 discarded), n.thin = 100
-##  n.sims = 3000 iterations saved
+<pre><code>## Inference for Bugs model at &quot;C:/Users/Administrator/AppData/Local/Temp/Rtmp6ZLoud/model4818a321fd&quot;, fit using jags,
+##  3 chains, each with 20000 iterations (first 10000 discarded), n.thin = 10
+##  n.sims = 3000 iterations saved. Running time = 3.61 secs
 ##          mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
 ## d[1]       0.000   0.000   0.000   0.000   0.000   0.000   0.000 1.000     1
-## d[2]       0.223   0.127  -0.024   0.140   0.225   0.308   0.469 1.002  1500
-## d[3]       0.754   0.062   0.639   0.715   0.754   0.793   0.874 1.023  3000
-## d[4]       0.830   0.176   0.490   0.714   0.829   0.947   1.173 1.001  3000
-## deviance 504.791 248.565 484.356 491.696 496.227 501.525 513.197 1.000  3000
+## d[2]       0.227   0.127  -0.019   0.143   0.230   0.311   0.480 1.005   460
+## d[3]       0.754   0.059   0.640   0.713   0.754   0.794   0.867 1.001  3000
+## d[4]       0.842   0.176   0.494   0.725   0.847   0.958   1.185 1.001  3000
+## deviance 497.167   7.458 484.609 491.747 496.498 501.878 513.651 1.001  3000
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ## 
-## DIC info (using the rule, pD = var(deviance)/2)
-## pD = 30912.8 and DIC = 31417.6
+## DIC info (using the rule: pV = var(deviance)/2)
+## pV = 27.8 and DIC = 525.0
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
 </div>
 <div id="查看随机效应模型结果" class="section level1">
 <h1>查看随机效应模型结果</h1>
 <pre class="r"><code>bayes.mod.random</code></pre>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/ADMINI~1/AppData/Local/Temp/RtmpyIXLtp/model710010c22612.txt&quot;, fit using jags,
-##  3 chains, each with 2e+05 iterations (first 1e+05 discarded), n.thin = 100
-##  n.sims = 3000 iterations saved
+<pre><code>## Inference for Bugs model at &quot;C:/Users/Administrator/AppData/Local/Temp/Rtmp6ZLoud/model48185008d16&quot;, fit using jags,
+##  3 chains, each with 20000 iterations (first 10000 discarded), n.thin = 10
+##  n.sims = 3000 iterations saved. Running time = 15.2 secs
 ##          mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
 ## d[1]       0.000   0.000   0.000   0.000   0.000   0.000   0.000 1.000     1
-## d[2]       0.520   0.393  -0.273   0.268   0.516   0.777   1.279 1.001  3000
-## d[3]       0.813   0.231   0.368   0.657   0.807   0.959   1.285 1.001  3000
-## d[4]       1.175   0.459   0.273   0.880   1.164   1.458   2.099 1.002  1700
-## deviance 281.804   9.934 264.509 274.769 281.313 288.171 303.243 1.001  2500
+## d[2]       0.529   0.383  -0.214   0.282   0.520   0.776   1.309 1.001  3000
+## d[3]       0.807   0.236   0.369   0.649   0.798   0.957   1.289 1.001  2300
+## d[4]       1.183   0.464   0.295   0.876   1.175   1.471   2.146 1.001  3000
+## deviance 281.420  10.398 262.896 274.277 280.726 287.925 303.627 1.002  1600
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ## 
-## DIC info (using the rule, pD = var(deviance)/2)
-## pD = 49.3 and DIC = 331.1
+## DIC info (using the rule: pV = var(deviance)/2)
+## pV = 54.0 and DIC = 335.4
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
 </div>
 <div id="检查固定效应模型收敛情况" class="section level1">
@@ -523,29 +536,29 @@ jags_params &lt;- c(&quot;d&quot;)</code></pre>
 <pre class="r"><code>bayes.mod.fixed.mcmc &lt;- as.mcmc(bayes.mod.fixed)
 summary(bayes.mod.fixed.mcmc)</code></pre>
 <pre><code>## 
-## Iterations = 100001:199901
-## Thinning interval = 100 
+## Iterations = 10010:20000
+## Thinning interval = 10 
 ## Number of chains = 3 
 ## Sample size per chain = 1000 
 ## 
 ## 1. Empirical mean and standard deviation for each variable,
 ##    plus standard error of the mean:
 ## 
-##              Mean        SD Naive SE Time-series SE
-## d[1]       0.0000   0.00000 0.000000       0.000000
-## d[2]       0.2231   0.12680 0.002315       0.002314
-## d[3]       0.7542   0.06242 0.001140       0.001168
-## d[4]       0.8296   0.17555 0.003205       0.003070
-## deviance 504.7913 248.56475 4.538151       4.539664
+##              Mean      SD Naive SE Time-series SE
+## d[1]       0.0000 0.00000 0.000000       0.000000
+## d[2]       0.2274 0.12695 0.002318       0.004131
+## d[3]       0.7538 0.05851 0.001068       0.001685
+## d[4]       0.8417 0.17564 0.003207       0.004771
+## deviance 497.1670 7.45845 0.136172       0.177239
 ## 
 ## 2. Quantiles for each variable:
 ## 
 ##               2.5%      25%      50%      75%    97.5%
 ## d[1]       0.00000   0.0000   0.0000   0.0000   0.0000
-## d[2]      -0.02432   0.1404   0.2247   0.3083   0.4686
-## d[3]       0.63868   0.7151   0.7545   0.7931   0.8736
-## d[4]       0.49041   0.7138   0.8286   0.9471   1.1734
-## deviance 484.35626 491.6959 496.2269 501.5250 513.1969</code></pre>
+## d[2]      -0.01934   0.1433   0.2295   0.3108   0.4801
+## d[3]       0.63954   0.7129   0.7543   0.7938   0.8667
+## d[4]       0.49416   0.7247   0.8467   0.9582   1.1850
+## deviance 484.60901 491.7465 496.4977 501.8780 513.6510</code></pre>
 <pre class="r"><code>plot(bayes.mod.fixed.mcmc)</code></pre>
 <p><img src="ades2006_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="ades2006_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 <pre class="r"><code>coda::autocorr.plot(bayes.mod.fixed.mcmc)</code></pre>
@@ -556,29 +569,29 @@ summary(bayes.mod.fixed.mcmc)</code></pre>
 <pre class="r"><code>bayes.mod.random.mcmc &lt;- as.mcmc(bayes.mod.random)
 summary(bayes.mod.random.mcmc)</code></pre>
 <pre><code>## 
-## Iterations = 100001:199901
-## Thinning interval = 100 
+## Iterations = 10010:20000
+## Thinning interval = 10 
 ## Number of chains = 3 
 ## Sample size per chain = 1000 
 ## 
 ## 1. Empirical mean and standard deviation for each variable,
 ##    plus standard error of the mean:
 ## 
-##              Mean     SD Naive SE Time-series SE
-## d[1]       0.0000 0.0000 0.000000       0.000000
-## d[2]       0.5202 0.3935 0.007184       0.007456
-## d[3]       0.8128 0.2307 0.004212       0.004312
-## d[4]       1.1748 0.4586 0.008372       0.008370
-## deviance 281.8043 9.9342 0.181372       0.181362
+##              Mean      SD Naive SE Time-series SE
+## d[1]       0.0000  0.0000 0.000000       0.000000
+## d[2]       0.5288  0.3831 0.006994       0.008155
+## d[3]       0.8066  0.2361 0.004311       0.005942
+## d[4]       1.1835  0.4635 0.008463       0.010342
+## deviance 281.4198 10.3980 0.189840       0.248011
 ## 
 ## 2. Quantiles for each variable:
 ## 
 ##              2.5%      25%      50%      75%   97.5%
 ## d[1]       0.0000   0.0000   0.0000   0.0000   0.000
-## d[2]      -0.2725   0.2680   0.5163   0.7772   1.279
-## d[3]       0.3683   0.6566   0.8067   0.9590   1.285
-## d[4]       0.2730   0.8803   1.1645   1.4582   2.099
-## deviance 264.5094 274.7693 281.3132 288.1706 303.243</code></pre>
+## d[2]      -0.2139   0.2818   0.5202   0.7764   1.309
+## d[3]       0.3694   0.6495   0.7976   0.9574   1.289
+## d[4]       0.2948   0.8758   1.1752   1.4705   2.146
+## deviance 262.8961 274.2774 280.7257 287.9250 303.627</code></pre>
 <pre class="r"><code>plot(bayes.mod.random.mcmc)</code></pre>
 <p><img src="ades2006_files/figure-html/unnamed-chunk-9-1.png" width="672" /><img src="ades2006_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 <pre class="r"><code>coda::autocorr.plot(bayes.mod.random.mcmc)</code></pre>

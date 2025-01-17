@@ -14,8 +14,8 @@
 
 <title>cooper2004</title>
 
-<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -33,8 +33,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 
 <style type="text/css">
@@ -56,6 +56,7 @@ if (window.hljs) {
   }
 }
 </script>
+
 
 
 
@@ -85,6 +86,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -142,11 +146,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -175,8 +183,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -184,16 +192,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -237,7 +238,7 @@ $(document).ready(function () {
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -248,7 +249,7 @@ $(document).ready(function () {
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
     Home
   </a>
@@ -275,17 +276,17 @@ $(document).ready(function () {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-gear"></span>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-gear"></span>
      
     More
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Heading 1</li>
+    <li class="dropdown-header">Link</li>
     <li>
-      <a href="page-a.html">Page A</a>
+      <a href="https://github.com/mulifeng">Github</a>
     </li>
     <li>
       <a href="page-b.html">Page B</a>
@@ -304,7 +305,7 @@ $(document).ready(function () {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://mulifeng.github.io">
-    <span class="fas fa-question fa-lg"></span>
+    <span class="fa fa-question fa-lg"></span>
      
   </a>
 </li>
@@ -324,24 +325,20 @@ $(document).ready(function () {
 </div>
 
 
-<div id="comprehensive-decision-analytical-modelling-in-economic-evaluation-a-bayesian-approachdoi10.1002hec.804" class="section level1">
-<h1>Comprehensive decision analytical modelling in economic evaluation: a Bayesian approach(<a href="doi:10.1002/hec.804" class="uri">doi:10.1002/hec.804</a>)</h1>
+<div
+id="comprehensive-decision-analytical-modelling-in-economic-evaluation-a-bayesian-approachdoi10.1002hec.804"
+class="section level1">
+<h1>Comprehensive decision analytical modelling in economic evaluation:
+a Bayesian approach(<a href="doi:10.1002/hec.804"
+class="uri">doi:10.1002/hec.804</a>)</h1>
 </div>
 <div id="pair-wise-meta-analysis-贝叶斯方法" class="section level1">
 <h1>pair-wise meta-analysis 贝叶斯方法</h1>
+<p><br/><br/></p>
 </div>
 <div id="加载程序包" class="section level1">
 <h1>加载程序包</h1>
 <pre class="r"><code>library(R2jags)</code></pre>
-<pre><code>## Loading required package: rjags</code></pre>
-<pre><code>## Loading required package: coda</code></pre>
-<pre><code>## Linked to JAGS 4.3.0</code></pre>
-<pre><code>## Loaded modules: basemod,bugs</code></pre>
-<pre><code>## 
-## Attaching package: &#39;R2jags&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:coda&#39;:
-## 
-##     traceplot</code></pre>
 </div>
 <div id="一神经氨酸酶抑制剂预防流感" class="section level1">
 <h1>一、神经氨酸酶抑制剂预防流感</h1>
@@ -453,7 +450,6 @@ jags_params &lt;- c(&quot;delt&quot;, &quot;OR&quot;)
 bayes.mod.fit &lt;- jags(data = jags_dat, inits = inits,
                       parameters.to.save = jags_params, n.chains = 3, n.iter = 10000,
                       n.burnin = 5000, model.file = bayes_mod)</code></pre>
-<pre><code>## module glm loaded</code></pre>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -464,19 +460,19 @@ bayes.mod.fit &lt;- jags(data = jags_dat, inits = inits,
 ## 
 ## Initializing model</code></pre>
 <pre class="r"><code>print(bayes.mod.fit)</code></pre>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/ADMINI~1/AppData/Local/Temp/RtmpawD81D/model11d8570f2f2a.txt&quot;, fit using jags,
+<pre><code>## Inference for Bugs model at &quot;C:/Users/Administrator/AppData/Local/Temp/Rtmp6ZLoud/model48186b47752a&quot;, fit using jags,
 ##  3 chains, each with 10000 iterations (first 5000 discarded), n.thin = 5
-##  n.sims = 3000 iterations saved
+##  n.sims = 3000 iterations saved. Running time = 0.83 secs
 ##          mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-## OR         0.210   0.076  0.102  0.164  0.199  0.241  0.377 1.002  3000
-## delt      -1.619   0.338 -2.286 -1.810 -1.613 -1.422 -0.975 1.002  3000
-## deviance  59.902   4.186 53.253 56.890 59.357 62.408 69.612 1.001  3000
+## OR         0.211   0.082  0.103  0.165  0.198  0.241  0.389 1.007   660
+## delt      -1.614   0.330 -2.272 -1.804 -1.617 -1.422 -0.945 1.007   660
+## deviance  60.014   4.216 53.206 56.937 59.507 62.507 69.743 1.001  2500
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ## 
-## DIC info (using the rule, pD = var(deviance)/2)
-## pD = 8.8 and DIC = 68.7
+## DIC info (using the rule: pV = var(deviance)/2)
+## pV = 8.9 and DIC = 68.9
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
 <pre class="r"><code>plot(bayes.mod.fit)</code></pre>
 <p><img src="cooper2004_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
@@ -485,7 +481,7 @@ bayes.mod.fit &lt;- jags(data = jags_dat, inits = inits,
 <pre class="r"><code>bayes.mod.fit.mcmc &lt;- as.mcmc(bayes.mod.fit)
 summary(bayes.mod.fit.mcmc)</code></pre>
 <pre><code>## 
-## Iterations = 5001:9996
+## Iterations = 5005:10000
 ## Thinning interval = 5 
 ## Number of chains = 3 
 ## Sample size per chain = 1000 
@@ -494,16 +490,16 @@ summary(bayes.mod.fit.mcmc)</code></pre>
 ##    plus standard error of the mean:
 ## 
 ##             Mean      SD Naive SE Time-series SE
-## delt     -1.6187 0.33808 0.006172       0.007594
-## deviance 59.9024 4.18578 0.076422       0.080576
-## OR        0.2097 0.07619 0.001391       0.001728
+## delt     -1.6143 0.33025 0.006030       0.008814
+## deviance 60.0141 4.21618 0.076977       0.107577
+## OR        0.2106 0.08189 0.001495       0.002204
 ## 
 ## 2. Quantiles for each variable:
 ## 
 ##             2.5%     25%     50%     75%   97.5%
-## delt     -2.2862 -1.8102 -1.6133 -1.4220 -0.9751
-## deviance 53.2530 56.8902 59.3568 62.4075 69.6122
-## OR        0.1016  0.1636  0.1992  0.2412  0.3771</code></pre>
+## delt     -2.2720 -1.8045 -1.6174 -1.4217 -0.9448
+## deviance 53.2056 56.9368 59.5072 62.5066 69.7429
+## OR        0.1031  0.1646  0.1984  0.2413  0.3887</code></pre>
 <pre class="r"><code>library(coda)
 library(lattice)
 lattice::xyplot(bayes.mod.fit.mcmc)</code></pre>
@@ -528,32 +524,15 @@ lattice::xyplot(bayes.mod.fit.mcmc)</code></pre>
 <p><img src="cooper2004_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <pre class="r"><code># produce html files with trace, density, and autocorrelation plots all on one page
 mcmcplot(bayes.mod.fit.mcmc) </code></pre>
-<pre><code>## 
-                                                                                
-Preparing plots for delt.  33% complete.</code></pre>
-<pre><code>## 
-                                                                                
-Preparing plots for deviance.  67% complete.</code></pre>
-<pre><code>## 
-                                                                                
-Preparing plots for OR.  100% complete.</code></pre>
+<pre><code>##                                                                                 Preparing plots for delt.  33% complete.</code></pre>
+<pre><code>##                                                                                 Preparing plots for deviance.  67% complete.</code></pre>
+<pre><code>##                                                                                 Preparing plots for OR.  100% complete.</code></pre>
 <pre class="r"><code># produce a coefficient dot plot with credible intervals
 caterplot(bayes.mod.fit.mcmc)</code></pre>
 <p><img src="cooper2004_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <pre class="r"><code>caterplot(bayes.mod.fit.mcmc, parms = c(&quot;OR&quot;), labels = c(&quot;OR&quot;))</code></pre>
 <p><img src="cooper2004_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <pre class="r"><code>library(ggmcmc)</code></pre>
-<pre><code>## Loading required package: dplyr</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre><code>## Loading required package: tidyr</code></pre>
-<pre><code>## Loading required package: ggplot2</code></pre>
 <pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
 ##   method from   
 ##   +.gg   ggplot2</code></pre>
@@ -573,66 +552,66 @@ superdiag(bayes.mod.fit.mcmc, burnin = 100)</code></pre>
 ## ****************** The Geweke diagnostic: ******************
 ## Windows:
 ##            chain 1 chain 2 chain 3
-## From start     0.1  0.1992  0.4935
-## From stop      0.5  0.3952  0.2533
+## From start     0.1  0.4494  0.5816
+## From stop      0.5  0.2235  0.0620
 ## 
 ## Z-scores:
-##           chain 1 chain 2 chain 3
-## delt     -0.27561  0.8596  0.4402
-## deviance  0.03603  0.3015  1.5079
-## OR       -0.76714  0.8336 -0.1063
+##          chain 1 chain 2  chain 3
+## delt      -1.425  0.1907  0.15210
+## deviance   1.617 -1.2120  0.96252
+## OR        -1.698  0.1668 -0.03474
 ## 
 ## *************** The Gelman-Rubin diagnostic: ***************
 ## Potential scale reduction factors:
 ##          Point est. Upper C.I.
-## delt          1.003      1.005
-## deviance      1.000      1.001
-## OR            1.007      1.011
+## delt          1.008      1.015
+## deviance      1.000      1.002
+## OR            1.038      1.052
 ## 
-## Multivariate psrf: 1.002
+## Multivariate psrf: 1.0049
 ## 
 ## ************* The Heidelberger-Welch diagnostic ************
 ## Chain 1:
 ## epsilon=0.1, alpha=0.05                                       
 ##          Stationarity start     p-value
 ##          test         iteration        
-## delt     passed       1         0.6782 
-## deviance passed       1         0.9805 
-## OR       passed       1         0.4018 
+## delt     passed       1         0.2689 
+## deviance passed       1         0.1446 
+## OR       passed       1         0.1810 
 ##                                     
 ##          Halfwidth Mean    Halfwidth
 ##          test                       
-## delt     passed    -1.6278 0.024384 
-## deviance passed    60.0136 0.305829 
-## OR       passed     0.2077 0.005689 
+## delt     passed    -1.6077 0.044897 
+## deviance passed    59.9011 0.299003 
+## OR       passed     0.2102 0.007015 
 ## 
 ## Chain 2:
-## epsilon=0.154, alpha=0.05                                       
+## epsilon=0.167, alpha=0.1                                       
 ##          Stationarity start     p-value
 ##          test         iteration        
-## delt     passed       1         0.09893
-## deviance passed       1         0.43861
-## OR       passed       1         0.10114
+## delt     passed       1         0.8093 
+## deviance passed       1         0.8180 
+## OR       passed       1         0.8639 
 ##                                    
 ##          Halfwidth Mean   Halfwidth
 ##          test                      
-## delt     passed    -1.629 0.030337 
-## deviance passed    59.933 0.274886 
-## OR       passed     0.206 0.006201 
+## delt     passed    -1.590 0.03740  
+## deviance passed    59.908 0.57297  
+## OR       passed     0.219 0.01112  
 ## 
 ## Chain 3:
-## epsilon=0.139, alpha=0.01                                       
+## epsilon=0.018, alpha=0.1                                       
 ##          Stationarity start     p-value
 ##          test         iteration        
-## delt     passed       1         0.8258 
-## deviance passed       1         0.3885 
-## OR       passed       1         0.9381 
+## delt     passed        1        0.1651 
+## deviance passed       92        0.2030 
+## OR       passed        1        0.1737 
 ##                                     
 ##          Halfwidth Mean    Halfwidth
 ##          test                       
-## delt     passed    -1.6109 0.027797 
-## deviance passed    59.8102 0.302537 
-## OR       passed     0.2126 0.005914 
+## delt     passed    -1.6314 0.02723  
+## deviance passed    60.0393 0.27779  
+## OR       failed     0.2058 0.00574  
 ## 
 ## *************** The Raftery-Lewis diagnostic ***************
 ## Chain 1:
@@ -644,50 +623,53 @@ superdiag(bayes.mod.fit.mcmc, burnin = 100)</code></pre>
 ## You need a sample size of at least 3746 with these values of q, r and s
 ## 
 ## Chain 2:
-## Convergence eps = 2e-04
+## Convergence eps = 0.0025
 ## Quantile (q) = 0.1
 ## Accuracy (r) = +/- 0.005
-## Probability (s) = 0.95 
+## Probability (s) = 0.975 
 ## 
-## You need a sample size of at least 13830 with these values of q, r and s
+## You need a sample size of at least 18086 with these values of q, r and s
 ## 
 ## Chain 3:
-## Convergence eps = 0.001
-## Quantile (q) = 0.1
-## Accuracy (r) = +/- 0.005
-## Probability (s) = 0.99 
+## Convergence eps = 2e-04
+## Quantile (q) = 0.05
+## Accuracy (r) = +/- 0.001
+## Probability (s) = 0.95 
 ## 
-## You need a sample size of at least 23886 with these values of q, r and s
+## You need a sample size of at least 182470 with these values of q, r and s
 ## 
 ## ************* The Hellinger distance diagnostic ************
 ## Between chains: 
 ##              Min     Max
-## delt     0.07876 0.08320
-## deviance 0.04075 0.05667
-## OR       0.08857 0.09595
+## delt     0.09228 0.11567
+## deviance 0.04528 0.05853
+## OR       0.09805 0.11904
 ## 
 ## Within chain 1:
-##              180     360     540     720
-## delt     0.12706 0.12733 0.09533 0.13052
-## deviance 0.09222 0.05614 0.03866 0.06448
-## OR       0.13281 0.13246 0.10987 0.13577
+##             180    360     540     720
+## delt     0.1393 0.1376 0.06688 0.11048
+## deviance 0.1067 0.1181 0.09007 0.05619
+## OR       0.1327 0.1187 0.06372 0.10361
 ## 
 ## Within chain 2:
-##              180    360     540     720
-## delt     0.07943 0.1532 0.11024 0.07809
-## deviance 0.10215 0.1123 0.03011 0.06156
-## OR       0.10221 0.1493 0.10214 0.08753
+##              180     360     540    720
+## delt     0.11188 0.17105 0.15420 0.1710
+## deviance 0.05893 0.09467 0.06439 0.1327
+## OR       0.15394 0.18566 0.16276 0.1821
 ## 
 ## Within chain 3:
-##             180     360     540     720
-## delt     0.1205 0.11748 0.14701 0.09828
-## deviance 0.1171 0.09044 0.08679 0.06242
-## OR       0.1313 0.13099 0.15047 0.08347</code></pre>
+##              180     360    540     720
+## delt     0.09023 0.13283 0.1159 0.11494
+## deviance 0.08588 0.07352 0.1011 0.09027
+## OR       0.11196 0.14452 0.1333 0.13101</code></pre>
 </div>
-<div id="使用频率学方法的pairwise-meta-analysis分析相同数据并进行比较" class="section level1">
+<div id="使用频率学方法的pairwise-meta-analysis分析相同数据并进行比较"
+class="section level1">
 <h1>使用频率学方法的pairwise meta-analysis分析相同数据，并进行比较</h1>
 <pre class="r"><code>library(meta)</code></pre>
-<pre><code>## Loading &#39;meta&#39; package (version 4.18-0).
+<pre><code>## Warning: package &#39;meta&#39; was built under R version 4.4.2</code></pre>
+<pre><code>## Loading required package: metadat</code></pre>
+<pre><code>## Loading &#39;meta&#39; package (version 8.0-1).
 ## Type &#39;help(meta)&#39; for a brief overview.</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;meta&#39;</code></pre>
@@ -701,8 +683,9 @@ superdiag(bayes.mod.fit.mcmc, burnin = 100)</code></pre>
                    study = c(&quot;Monto&quot;, &quot;Hayden&quot;, &quot;Kaiser&quot;, &quot;Hayden&quot;, &quot;Hayden&quot;, &quot;Wwlliver&quot;),
                    year = c(&quot;1999&quot;, &quot;2000&quot;, &quot;2000&quot;, &quot;1999&quot;, &quot;1999&quot;, &quot;2001&quot;))
 metaresult &lt;- metabin(event.e, n.e, event.c, n.c, data = data,
-                      sm = &quot;OR&quot;,studlab = paste(study, year), comb.random = F)
-forest(metaresult)  </code></pre>
+                      sm = &quot;OR&quot;,studlab = paste(study, year), comb.random = F)</code></pre>
+<pre><code>## Warning: Use argument &#39;random&#39; instead of &#39;comb.random&#39; (deprecated).</code></pre>
+<pre class="r"><code>forest(metaresult)  </code></pre>
 <p><img src="cooper2004_files/figure-html/unnamed-chunk-24-1.png" width="960" /></p>
 <pre class="r"><code># 基于频率学方法的meta分析结果显示，OR 95%CI为0.21[0.14; 0.30]</code></pre>
 </div>

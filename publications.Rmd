@@ -18,4 +18,8 @@ title: ''
 [6] **_Lifeng Mu_**, Benhong Zhou. Letter: Cost-Effectiveness of Alectinib for Patients with Untreated ALK-Positive Non-Small Cell Lung Cancer in China. _Advances in Therapy_. doi: 10.1007/s12325-019-01204-0.
 <br/><br/>
 [7]  **_母立峰_**, 郭咸希,胡艳茹,黄岭,戎佩佩,周本宏.克唑替尼一线治疗ALK阳性非小细胞肺癌的成本-效果分析[J].中国药师,2020,23(06):1119-1123.
+<br/><br/>
+[8] **_母立峰_**,何梅,黎风,方榆岚,杨明. 围手术期抗菌药物医嘱预点评工具的设计与效果 [J]. 医药导报, 2024, 43 (01): 54-58.
+<br/><br/>
+[9] **_Mu L_**, Liu F, Fang Y, et al. Cost-effectiveness of adjuvant icotinib versus chemotherapy for patients with stage II–IIIA EGFR-mutated non-small cell lung cancer in China[J]. BMJ open, 2024, 14(8): e081270.
 

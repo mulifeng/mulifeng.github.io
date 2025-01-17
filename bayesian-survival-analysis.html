@@ -14,8 +14,8 @@
 
 <title>贝叶斯参数生存模型</title>
 
-<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -33,8 +33,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 <link href="site_libs/ionicons-2.0.1/css/ionicons.min.css" rel="stylesheet" />
 
 <style type="text/css">
@@ -56,6 +56,7 @@ if (window.hljs) {
   }
 }
 </script>
+
 
 
 
@@ -85,6 +86,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -142,11 +146,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -175,8 +183,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -184,16 +192,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -237,7 +238,7 @@ $(document).ready(function () {
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -248,7 +249,7 @@ $(document).ready(function () {
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
     Home
   </a>
@@ -275,8 +276,8 @@ $(document).ready(function () {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-gear"></span>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-gear"></span>
      
     More
      
@@ -304,7 +305,7 @@ $(document).ready(function () {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://mulifeng.github.io">
-    <span class="fas fa-question fa-lg"></span>
+    <span class="fa fa-question fa-lg"></span>
      
   </a>
 </li>
@@ -324,7 +325,15 @@ $(document).ready(function () {
 </div>
 
 
-<p>删失数据是我们观察到的一部分数据，贝叶斯统计学把它当作missing(缺失数据)来处理，贝叶斯的方法是想办法把缺失的数据填补回来 gibbs sampling是这么做的，有了y我们可以抽θ，有了θ我们可以抽<span class="math inline">\(Exp(θ)I(y_i &gt; 6)\)</span>,重复上面的两个步骤，我们就可以抽出一大推θ和missing， 所以贝叶斯统计不但可以把θ估计出来，还可以把missing估计出来 未知参数是θ，给θ一个共轭先验 为了简便，假设θ的先验是gamma分布: <span class="math display">\[θ \sim Ga(a, b)\]</span> 根据共轭先验的概念，可以很快求出后验分布: <span class="math display">\[θ|y \sim Ga(a + n, b + n\bar{y})\]</span></p>
+<p>删失数据是我们观察到的一部分数据，贝叶斯统计学把它当作missing(缺失数据)来处理，贝叶斯的方法是想办法把缺失的数据填补回来
+gibbs sampling是这么做的，有了y我们可以抽θ，有了θ我们可以抽<span
+class="math inline">\(Exp(θ)I(y_i &gt;
+6)\)</span>,重复上面的两个步骤，我们就可以抽出一大推θ和missing，
+所以贝叶斯统计不但可以把θ估计出来，还可以把missing估计出来
+未知参数是θ，给θ一个共轭先验 为了简便，假设θ的先验是gamma分布: <span
+class="math display">\[θ \sim Ga(a, b)\]</span>
+根据共轭先验的概念，可以很快求出后验分布: <span
+class="math display">\[θ|y \sim Ga(a + n, b + n\bar{y})\]</span></p>
 <p>使用共轭gamma分布</p>
 <pre class="r"><code># 使用rexp函数创造服从指数分布的生存数据
 set.seed(20210716)
@@ -364,19 +373,12 @@ quantile(1/theta, c(0.025, 0.975))</code></pre>
 <h2>frequentist estimation</h2>
 <pre class="r"><code>sum(!dat$miss) / sum(dat$time.to.recovery)</code></pre>
 <pre><code>## [1] 0.3187496</code></pre>
-<p>贝叶斯方法可以求出分布，missing， 上面的例子是右删失，区间删失同样可以求出来</p>
+<p>贝叶斯方法可以求出分布，missing，
+上面的例子是右删失，区间删失同样可以求出来</p>
 <p>上述过程直接使用了共轭先验分布，同样也可以考虑使用JAGS等软件建模，使用MCMC方法抽样</p>
-<pre class="r"><code>library(R2jags)</code></pre>
-<pre><code>## Loading required package: rjags</code></pre>
-<pre><code>## Loading required package: coda</code></pre>
-<pre><code>## Linked to JAGS 4.3.0</code></pre>
-<pre><code>## Loaded modules: basemod,bugs</code></pre>
-<pre><code>## 
-## Attaching package: &#39;R2jags&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:coda&#39;:
-## 
-##     traceplot</code></pre>
-<pre class="r"><code>bayes_surv_model &lt;- function(){
+<pre class="r"><code>library(R2jags)
+
+bayes_surv_model &lt;- function(){
     for (i in 1:n) {
       cens[i] ~ dinterval(t[i], tos[i]) # 1 if censored
       t[i] ~ dgamma(shape, rate) # NA if censored
@@ -393,7 +395,6 @@ bayes_surv_params &lt;- c(&#39;rate&#39;, &#39;shape&#39;)</code></pre>
 <pre class="r"><code>bayes.mod.surv &lt;- jags(data = bayes_surv_data, #inits = inits,
                       parameters.to.save = bayes_surv_params, n.chains = 3, n.iter = 20000,
                       n.burnin = 10000, model.file = bayes_surv_model)</code></pre>
-<pre><code>## module glm loaded</code></pre>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -407,19 +408,19 @@ bayes_surv_params &lt;- c(&#39;rate&#39;, &#39;shape&#39;)</code></pre>
 <div id="查看结果" class="section level1">
 <h1>查看结果</h1>
 <pre class="r"><code>bayes.mod.surv</code></pre>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/ADMINI~1/AppData/Local/Temp/RtmpkDXpJV/model192c1be67fb5.txt&quot;, fit using jags,
+<pre><code>## Inference for Bugs model at &quot;C:/Users/Administrator/AppData/Local/Temp/Rtmp6ZLoud/model481837eb7260&quot;, fit using jags,
 ##  3 chains, each with 20000 iterations (first 10000 discarded), n.thin = 10
-##  n.sims = 3000 iterations saved
+##  n.sims = 3000 iterations saved. Running time = 17.86 secs
 ##          mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
-## rate       0.313   0.079   0.176   0.258   0.307   0.363   0.485 1.001  3000
-## shape      0.959   0.177   0.656   0.834   0.952   1.070   1.342 1.001  2800
-## deviance 148.964   5.910 139.298 144.688 148.390 152.523 162.309 1.002  1400
+## rate       0.311   0.077   0.178   0.257   0.306   0.359   0.478 1.003   760
+## shape      0.955   0.173   0.657   0.833   0.939   1.064   1.332 1.001  3000
+## deviance 148.975   5.862 139.453 144.750 148.299 152.425 162.404 1.004   530
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ## 
-## DIC info (using the rule, pD = var(deviance)/2)
-## pD = 17.4 and DIC = 166.4
+## DIC info (using the rule: pV = var(deviance)/2)
+## pV = 17.1 and DIC = 166.1
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
 </div>
 <div id="检查模型收敛情况" class="section level1">
@@ -427,7 +428,7 @@ bayes_surv_params &lt;- c(&#39;rate&#39;, &#39;shape&#39;)</code></pre>
 <pre class="r"><code>bayes.mod.surv.mcmc &lt;- as.mcmc(bayes.mod.surv)
 summary(bayes.mod.surv.mcmc)</code></pre>
 <pre><code>## 
-## Iterations = 10001:19991
+## Iterations = 10010:20000
 ## Thinning interval = 10 
 ## Number of chains = 3 
 ## Sample size per chain = 1000 
@@ -436,16 +437,16 @@ summary(bayes.mod.surv.mcmc)</code></pre>
 ##    plus standard error of the mean:
 ## 
 ##              Mean      SD Naive SE Time-series SE
-## deviance 148.9637 5.90975 0.107897       0.110189
-## rate       0.3128 0.07857 0.001434       0.001587
-## shape      0.9592 0.17688 0.003229       0.003585
+## deviance 148.9752 5.86220 0.107029       0.106031
+## rate       0.3110 0.07695 0.001405       0.001403
+## shape      0.9547 0.17291 0.003157       0.003206
 ## 
 ## 2. Quantiles for each variable:
 ## 
 ##              2.5%      25%      50%      75%    97.5%
-## deviance 139.2977 144.6878 148.3899 152.5232 162.3086
-## rate       0.1764   0.2583   0.3068   0.3626   0.4848
-## shape      0.6561   0.8340   0.9518   1.0700   1.3425</code></pre>
+## deviance 139.4527 144.7500 148.2989 152.4250 162.4041
+## rate       0.1782   0.2571   0.3058   0.3592   0.4778
+## shape      0.6567   0.8327   0.9394   1.0639   1.3315</code></pre>
 <pre class="r"><code>plot(bayes.mod.surv.mcmc)</code></pre>
 <p><img src="bayesian-survival-analysis_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code>coda::autocorr.plot(bayes.mod.surv.mcmc)</code></pre>
@@ -466,7 +467,9 @@ summary(bayes.mod.surv.mcmc)</code></pre>
 </div>
 <div id="weibull-regression" class="section level1">
 <h1>weibull regression</h1>
-<p>简单起见，假设协变量<span class="math inline">\(x_i\)</span>只有一个，是一个binary treatment indicator</p>
+<p>简单起见，假设协变量<span
+class="math inline">\(x_i\)</span>只有一个，是一个binary treatment
+indicator</p>
 </div>
 
 
